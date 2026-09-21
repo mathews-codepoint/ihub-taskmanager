@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>iHub · L2 / L3 / L4 Menu Designs</title>
+<style>
+  @font-face { font-family:'Zarid Sans'; src:url('../fonts/ZaridSans-ExtraLight.otf') format('opentype'); font-weight:200 350; font-style:normal; font-display:swap; }
+  @font-face { font-family:'Zarid Sans'; src:url('../fonts/ZaridSans-Regular.otf') format('opentype'); font-weight:360 550; font-style:normal; font-display:swap; }
+  @font-face { font-family:'Zarid Sans'; src:url('../fonts/ZaridSans-Bold.otf') format('opentype'); font-weight:560 900; font-style:normal; font-display:swap; }
+  @font-face { font-family:'Cormorant'; src:url('../fonts/Cormorant-Italic500.woff2') format('woff2'); font-weight:400 600; font-style:italic; font-display:swap; }
+
+  :root {
+    --bg:#ECECF0; --bg-2:#F6F6F8; --paper:#FFFFFF; --paper-2:#ECECF0;
+    --line:#E4E4EA; --line-2:#D3D3DC;
+    --text:#1A1A1F; --text-2:#44444C; --text-3:#757575; --text-4:#9A9AA3;
+    --accent:#93358D; --accent-dim:#93358D1F;
+    --font-sans:'Zarid Sans','Myriad Pro','Calibri',system-ui,sans-serif;
+    --font-serif:'Cormorant','Times New Roman',serif;
+    --font-mono:'Zarid Sans',system-ui,sans-serif;
+  }
+  * { box-sizing:border-box; }
+  html, body { margin:0; height:100%; font-family:var(--font-sans); color:var(--text); }
+  button { font-family:var(--font-sans); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<template id="__bundler_thumbnail">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#93358D"></rect><text x="50" y="66" font-family="Georgia,serif" font-size="48" text-anchor="middle" fill="#fff"><tspan font-style="italic">i</tspan>h</text></svg>
+</template>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="nav-data.jsx"></script>
+<script type="text/babel" src="menus.jsx"></script>
+
+<script type="text/babel">
+const { useState } = React;
+
+function Board({ kicker, title, blurb, height, children }) {
+  return (
+    <div style={{ display:'flex', flexDirection:'column', height:'100%', background:'var(--paper)' }}>
+      <div style={{ padding:'16px 22px', borderBottom:'1px solid var(--line)', background:'var(--bg-2)' }}>
+        <div style={{ display:'flex', alignItems:'baseline', gap:10, marginBottom:5 }}>
+          <span style={{ fontFamily:'var(--font-mono)', fontSize:11, letterSpacing:'.16em',
+            textTransform:'uppercase', color:'var(--accent)', fontWeight:600 }}>{kicker}</span>
+          <span style={{ fontSize:17, fontWeight:600, letterSpacing:'-0.01em' }}>{title}</span>
+        </div>
+        <div style={{ fontSize:13.5, color:'var(--text-3)', maxWidth:760, lineHeight:1.5 }}>{blurb}</div>
+      </div>
+      <div style={{ flex:1, minHeight:0 }}>{children}</div>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <DesignCanvas>
+      <DCSection id="menus" title="Horizontal-bar menu — three refined treatments"
+        subtitle="Keeping the original direction: L1 top bar → L2 underline tabs → L3/L4 rows beneath. All three are interactive (click L1 / L2 / L3 / L4). They differ only in how L3 and L4 are made to read as distinct levels — the hard part of a horizontal layout.">
+
+        <DCArtboard id="chips" label="1 · Faithful refined" width={1180} height={398}>
+          <Board kicker="Treatment 1" title="Labelled chip rows"
+            blurb="Closest to today. L3 is solid pill chips; L4 drops to lighter borderless chips on a tinted row. A small leading label (Category / Item) plus a breadcrumb make the depth unmistakable. Lowest-risk evolution of the current bar.">
+            <BarChips />
+          </Board>
+        </DCArtboard>
+
+        <DCArtboard id="segmented" label="2 · Segmented + links" width={1180} height={398}>
+          <Board kicker="Treatment 2" title="Segmented L3, quiet L4 links"
+            blurb="L3 becomes one connected segmented control — it reads instantly as 'pick one of these'. L4 falls back to quiet dot-separated text links. The strongest visual separation between the two levels; feels the most deliberate.">
+            <BarSegmented />
+          </Board>
+        </DCArtboard>
+
+        <DCArtboard id="unified" label="3 · Single context bar" width={1180} height={372}>
+          <Board kicker="Treatment 3" title="Breadcrumb + context bar"
+            blurb="Most compact. One slim bar carries the breadcrumb and the L3 chips together; L4 reveals as a tight secondary row only for the active L3. Saves vertical space while always anchoring where you are.">
+            <BarUnified />
+          </Board>
+        </DCArtboard>
+
+      </DCSection>
+    </DesignCanvas>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+/* ==========================================================================
+   iHub — Base: reset, typography rhythm, focus, scrollbars, utilities
+   ========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition: background .18s var(--ease), color .18s var(--ease);
+}
+
+/* Arabic gets its own stack and a slightly looser rhythm. Numerals stay
+   Calibri/tabular in both directions via the NumCalibri unicode-range. */
+body[dir="rtl"] {
+  font-family: var(--font-arabic);
+  line-height: 1.58;
+}
+
+h1, h2, h3, h4, h5, h6 { margin: 0; font-weight: 600; line-height: 1.25; }
+p { margin: 0; }
+img { max-width: 100%; display: block; }
+button, input, select, textarea { font-family: inherit; font-size: inherit; color: inherit; }
+button { cursor: pointer; }
+a { color: var(--blue-med); text-decoration: none; }
+a:hover { text-decoration: underline; }
+[hidden] { display: none !important; }
+
+/* --- Text treatments ------------------------------------------------------ */
+.display { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.02em; }
+.display em, h1 em, h2 em { font-size: 1.06em; line-height: 1; }
+
+em, .accent-em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent);
+}
+/* RTL drops the Latin serif-italic motif for upright bold. */
+body[dir="rtl"] em, body[dir="rtl"] .accent-em {
+  font-family: inherit; font-style: normal; font-weight: 700;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-weight: 500;
+  color: var(--text-3);
+}
+
+.num, .tnum {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+
+.muted { color: var(--text-3); }
+.faint { color: var(--text-4); }
+
+/* --- Focus ---------------------------------------------------------------- */
+:where(button, a, [tabindex], input, select, textarea):focus-visible {
+  outline: 3px solid var(--accent-dim);
+  box-shadow: 0 0 0 1px var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--blue-med) 35%, transparent);
+}
+
+/* --- Scrollbars ----------------------------------------------------------- */
+* { scrollbar-width: thin; scrollbar-color: var(--line-2) transparent; }
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+  background: var(--line-2);
+  border-radius: 999px;
+  border: 2px solid var(--bg);
+}
+*::-webkit-scrollbar-thumb:hover { background: var(--text-4); }
+
+/* Hides the scrollbar but keeps scrolling (used by the L2 tab strips). */
+.no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* --- Motion --------------------------------------------------------------- */
+@keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes grow-bar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes pulse-soft { 0%, 100% { opacity: 1; } 50% { opacity: .55; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.rise { animation: rise .5s var(--ease) both; }
+.fade-in { animation: fade-in .18s var(--ease) both; }
+.pulse { animation: pulse-soft 1.8s var(--ease) infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* --- Small utilities ------------------------------------------------------ */
+.hairline { height: 1px; background: var(--line); border: 0; }
+.stack { display: flex; flex-direction: column; }
+.row { display: flex; align-items: center; }
+.wrap { flex-wrap: wrap; }
+.grow { flex: 1; min-width: 0; }
+.gap-4 { gap: 4px; } .gap-6 { gap: 6px; } .gap-8 { gap: 8px; }
+.gap-10 { gap: 10px; } .gap-12 { gap: 12px; } .gap-14 { gap: 14px; }
+.gap-16 { gap: 16px; } .gap-20 { gap: 20px; } .gap-24 { gap: 24px; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}

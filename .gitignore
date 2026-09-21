@@ -1,0 +1,22 @@
+# Archive/zip exports (regenerate from source, don't track binaries)
+*.zip
+ihub.zip
+
+# Unlabeled binary blobs found in project root (zip archives w/o extension)
+/zi2d9Yy3
+/ziqaJrne
+
+# Dated backup copies of index.html
+index.html.bak-*
+index-projectB-backup-*.html
+
+# OS/editor cruft
+.DS_Store
+Thumbs.db
+*.tmp
+
+# Scratch/cleanup staging folder
+**/_to_delete/
+
+# Claude scratch/exploration output (WIP copies, incoming zips, screenshots) - not part of the shipped app
+Claude outputs/

@@ -1,0 +1,159 @@
+/* ==========================================================================
+   iHub — Design tokens
+   Tamdeen Entertainment Digital Guideline v1.0
+   Values taken from the existing project's design system — not invented.
+   ========================================================================== */
+
+/* --- Brand typography ---------------------------------------------------- */
+/* Numerals always render in Calibri/Carlito via a unicode-range override, so
+   digits stay consistent inside Zarid/Arabic text runs. */
+@font-face {
+  font-family: 'NumCalibri';
+  src: local('Calibri'), local('Carlito'), local('Segoe UI');
+  unicode-range: U+0030-0039, U+002C, U+002E, U+003A, U+0025, U+002B, U+002D, U+0660-0669;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Zarid Sans';
+  src: url('../fonts/ZaridSans-ExtraLight.otf') format('opentype');
+  font-weight: 200 350; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Zarid Sans';
+  src: url('../fonts/ZaridSans-Regular.otf') format('opentype');
+  font-weight: 360 550; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Zarid Sans';
+  src: url('../fonts/ZaridSans-Bold.otf') format('opentype');
+  font-weight: 560 900; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'GE SS';
+  src: url('../fonts/GESS-Light.otf') format('opentype');
+  font-weight: 300; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'GE SS';
+  src: url('../fonts/GESS-Medium.otf') format('opentype');
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'GE SS';
+  src: url('../fonts/GESS-Bold.otf') format('opentype');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'BCN Arabic';
+  src: url('../fonts/BCNArabicRounded-Medium.otf') format('opentype');
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'BCN Arabic';
+  src: url('../fonts/BCNArabicRounded-Bold.otf') format('opentype');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+
+:root {
+  /* --- Neutrals — Paper (light, default) --- */
+  --bg: #ECECF0;
+  --bg-2: #F6F6F8;
+  --bg-3: #E3E3E9;
+  --paper: #FFFFFF;
+  --paper-2: #ECECF0;
+  --line: #E4E4EA;
+  --line-2: #D3D3DC;
+  --text: #1A1A1F;
+  --text-2: #44444C;
+  --text-3: #757575;
+  --text-4: #9A9AA3;
+
+  /* --- Semantic --- */
+  --ok: #1E9E63;
+  --warn: #B5791F;
+  --bad: #D32414;
+  --info: #5B53A8;
+
+  /* --- Brand palette --- */
+  --brand-purple: #93358D;      /* Tamdeen Magenta */
+  --brand-indigo: #3B2D59;      /* Deep Plum */
+  --brand-red: #EE3124;         /* Signal Red */
+  --brand-orange: #E57828;
+  --brand-yellow: #EFAC37;
+  --brand-lilac: #B282BA;
+  --brand-pink: #DEB0D2;
+  --brand-periwinkle: #7670B3;
+  --brand-mint: #73C69C;
+
+  /* --- Interactive blues — buttons & links are blue, never magenta --- */
+  --blue-dark: #1E2A4D;
+  --blue-med: #4F6FB8;
+  --blue-light: #B0BDF5;
+  --blue-soft: #EAEEFB;
+
+  /* --- Accent (switchable) --- */
+  --accent: #93358D;
+  --accent-dim: #93358D1F;
+  --accent-ink: #FFFFFF;
+
+  /* --- Type --- */
+  --font-sans: 'NumCalibri', 'Zarid Sans', 'Myriad Pro', 'Calibri', system-ui, sans-serif;
+  --font-serif: 'NumCalibri', 'Cormorant', 'Times New Roman', serif;
+  --font-display: var(--font-sans);
+  --font-ui: var(--font-sans);
+  --font-arabic: 'NumCalibri', 'GE SS', 'BCN Arabic', sans-serif;
+  --font-mono: var(--font-sans);
+  --font-num: 'Calibri', 'Carlito', 'Segoe UI', system-ui, sans-serif;
+
+  /* --- Shape --- */
+  --radius-sm: 6px;
+  --radius: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+
+  /* --- Elevation --- */
+  --shadow-lift: 0 2px 10px rgba(20, 20, 30, 0.05);
+  --shadow-popover: 0 12px 32px rgba(20, 20, 30, .16);
+  --shadow-modal: 0 24px 80px rgba(26, 26, 31, 0.4);
+  --scrim: rgba(26, 26, 31, 0.5);
+
+  /* --- Motion --- */
+  --ease: cubic-bezier(.2, .7, .2, 1);
+
+  color-scheme: light;
+}
+
+/* --- Accent variants ------------------------------------------------------ */
+[data-accent="indigo"] {
+  --accent: #3B2D59;
+  --accent-dim: #3B2D591F;
+}
+[data-accent="crimson"] {
+  --accent: #EE3124;
+  --accent-dim: #EE31241F;
+}
+
+/* --- Ink (dark) theme ----------------------------------------------------- */
+[data-theme="ink"] {
+  --bg: oklch(0.18 0.008 240);
+  --bg-2: oklch(0.21 0.008 240);
+  --bg-3: oklch(0.26 0.009 240);
+  --paper: oklch(0.235 0.009 240);
+  --paper-2: oklch(0.27 0.01 240);
+  --line: oklch(0.32 0.01 240);
+  --line-2: oklch(0.40 0.012 240);
+  --text: oklch(0.97 0.005 240);
+  --text-2: oklch(0.78 0.01 240);
+  --text-3: oklch(0.58 0.01 240);
+  --text-4: oklch(0.45 0.008 240);
+
+  --blue-med: #8AA4E6;
+  --blue-soft: color-mix(in srgb, #4F6FB8 26%, transparent);
+
+  --shadow-lift: 0 2px 10px rgba(0, 0, 0, 0.35);
+  --shadow-popover: 0 12px 32px rgba(0, 0, 0, .45);
+  --shadow-modal: 0 24px 80px rgba(0, 0, 0, 0.6);
+  --scrim: rgba(10, 10, 14, 0.62);
+
+  color-scheme: dark;
+}

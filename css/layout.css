@@ -1,0 +1,457 @@
+/* ==========================================================================
+   iHub — Layout: app shell, top nav, mega menu, tab strips, page furniture
+   ========================================================================== */
+
+.app { min-height: 100vh; display: flex; flex-direction: column; }
+
+/* --- Top navigation bar --------------------------------------------------- */
+.topnav {
+  position: sticky;
+  top: 0;
+  z-index: 70;
+  /* Translucent chrome over a blurred backdrop, as in the source app. */
+  background: color-mix(in srgb, var(--bg-2) 88%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+.topnav-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 20px;
+  height: 64px; /* + 1px bottom border = 65px overall, matching the source */
+}
+
+.brand { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.brand img.tamdeen { height: 30px; width: auto; }
+.brand .divider { width: 1px; height: 26px; background: var(--line); }
+.brand .wordmark {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 22px; font-weight: 600; letter-spacing: -0.01em;
+  color: var(--text);
+}
+.brand .wordmark img { height: 26px; width: auto; }
+.brand .wordmark .i-serif {
+  font-family: var(--font-serif); font-style: italic; font-weight: 500; color: var(--accent);
+}
+
+/* min-width:0 + overflow:hidden is the hard guarantee that a long nav can
+   never push the document wider than the viewport. The breakpoints in
+   responsive.css thin the nav out before it ever reaches that point, so
+   nothing is actually clipped in practice. */
+.nav-items { display: flex; align-items: center; gap: 2px; flex: 1 1 auto; min-width: 0; overflow: hidden; }
+.nav-item {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 8px 12px;
+  border: none; background: none;
+  border-radius: var(--radius);
+  font-size: 14px; font-weight: 500;
+  color: var(--text-3);
+  white-space: nowrap;
+  transition: background .12s linear, color .12s linear;
+}
+.nav-item:hover { background: var(--bg-3); color: var(--text); }
+/* The active item is a neutral pill with full-strength text — magenta is the
+   brand accent here, not the selection colour. */
+.nav-item[aria-current="true"], .nav-item.active {
+  background: var(--bg); color: var(--text);
+}
+.nav-item .chev { transition: transform .15s var(--ease); }
+.nav-item[aria-expanded="true"] .chev { transform: rotate(180deg); }
+
+.topbar-actions { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.icon-btn {
+  width: 36px; height: 36px;
+  border-radius: var(--radius-sm);
+  border: none; background: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--text-2);
+  position: relative;
+  transition: background .12s linear, color .12s linear;
+}
+.icon-btn:hover { background: var(--bg-2); color: var(--text); }
+.icon-btn .dot {
+  position: absolute; top: 7px; inset-inline-end: 8px;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--bad); border: 1.5px solid var(--paper);
+}
+.user-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 4px 9px 4px 4px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: none;
+  font-size: 13px; font-weight: 500;
+}
+.user-chip:hover { background: var(--bg-2); border-color: var(--line); }
+
+/* Mobile nav toggle — hidden on desktop */
+.nav-toggle { display: none; }
+
+/* --- Mega menu ------------------------------------------------------------ */
+.mega {
+  position: absolute;
+  /* Inset from the viewport edges and tucked just under the translucent bar,
+     matching the source app's panel geometry. */
+  inset-inline: 60px;
+  top: -6px;
+  z-index: 80;
+  background: var(--paper);
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 16px 44px rgba(20, 20, 30, .22);
+  padding: 18px 20px;
+  max-height: min(70vh, 620px);
+  overflow-y: auto;
+  animation: rise .18s var(--ease) both;
+}
+.mega-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 2px 14px;
+}
+.mega-item {
+  display: flex; align-items: center; gap: 9px;
+  padding: 8px 9px;
+  border: none; background: none;
+  border-radius: 8px;
+  font-size: 12.5px;
+  color: var(--text-2);
+  text-align: start;
+  width: 100%;
+  min-width: 0;
+  transition: background .1s linear, color .1s linear;
+}
+.mega-item:hover { background: var(--bg-2); color: var(--accent); }
+.mega-item .mi-icon { color: var(--accent); display: flex; flex-shrink: 0; opacity: .85; }
+.mega-item span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* --- Full-bleed strips ----------------------------------------------------
+   Tab strips run edge to edge, so they cancel the page's side padding with
+   a negative margin. That margin has to track the page padding at every
+   breakpoint — a fixed -28px against 16px of padding pushes the document
+   12px wider than the viewport and creates a horizontal scrollbar. */
+.strip-bleed { margin-inline: -28px; padding-inline: 28px; }
+.strip-bleed.pull-top { margin-top: -26px; }
+.strip-bleed.push-bottom { margin-bottom: 22px; }
+.strip-bleed.tight { padding-inline: 16px; }
+
+@media (max-width: 1040px) {
+  .strip-bleed { margin-inline: -20px; padding-inline: 20px; }
+  .strip-bleed.pull-top { margin-top: -22px; }
+  .strip-bleed.tight { padding-inline: 12px; }
+}
+@media (max-width: 760px) {
+  .strip-bleed { margin-inline: -16px; padding-inline: 16px; }
+  .strip-bleed.pull-top { margin-top: -18px; }
+  .strip-bleed.push-bottom { margin-bottom: 18px; }
+  .strip-bleed.tight { padding-inline: 8px; }
+}
+
+/* --- L2 tab strip (arrow-scrolled, no visible scrollbar) ------------------- */
+.l2strip {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+  padding: 0 12px;
+}
+.l2strip .l2-arrow {
+  width: 26px; height: 26px;
+  border-radius: 999px;
+  border: 1px solid var(--line-2);
+  background: var(--paper);
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--text-3);
+  flex-shrink: 0;
+}
+.l2strip .l2-arrow:hover { background: var(--bg-2); color: var(--text); }
+.l2strip .l2-arrow:disabled { opacity: .35; cursor: not-allowed; }
+.l2strip .l2-track {
+  display: flex; align-items: center; gap: 2px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  flex: 1;
+  min-width: 0;
+}
+.l2-tab {
+  padding: 12px 14px;
+  border: none; background: none;
+  border-bottom: 2px solid transparent;
+  font-size: 13px; font-weight: 500;
+  color: var(--text-3);
+  white-space: nowrap;
+  transition: color .12s linear, border-color .12s linear;
+}
+.l2-tab:hover { color: var(--text); }
+.l2-tab[aria-selected="true"] {
+  color: var(--accent); font-weight: 600; border-bottom-color: var(--accent);
+}
+.l2strip.sub .l2-tab { padding: 9px 12px; font-size: 12.5px; }
+
+/* --- Page shell ----------------------------------------------------------- */
+main { flex: 1; min-width: 0; }
+.page {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 26px 28px 70px;
+}
+.page-head {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.page-title { font-size: 34px; font-weight: 500; letter-spacing: -0.025em; line-height: 1.15; }
+.page-sub { font-size: 13px; color: var(--text-3); margin-top: 5px; }
+
+.breadcrumbs {
+  display: flex; align-items: center; gap: 7px; flex-wrap: wrap;
+  font-size: 12.5px; color: var(--text-3);
+  padding: 11px 28px;
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
+}
+.breadcrumbs button { border: none; background: none; color: var(--text-3); font-size: 12.5px; padding: 0; }
+.breadcrumbs button:hover { color: var(--accent); text-decoration: underline; }
+.breadcrumbs .crumb-current { color: var(--text); font-weight: 600; }
+.breadcrumbs .sep { color: var(--line-2); display: flex; }
+
+/* --- Dashboard-specific --------------------------------------------------- */
+.hero {
+  display: grid;
+  grid-template-columns: 1.55fr 1fr;
+  gap: 22px;
+  align-items: start;
+  margin-bottom: 22px;
+}
+/* Display headline: fluid 36 -> 64px, light weight, tight tracking. */
+.hero h1 {
+  font-size: clamp(36px, 5.2vw, 64px);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+}
+.hero h1 .quiet { color: var(--text-3); }
+.hero .hero-sub { margin-top: 20px; font-size: 14.5px; color: var(--text-2); line-height: 1.6; max-width: 62ch; }
+.hero .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+.hero .eyebrow { margin-bottom: 14px; display: block; font-size: 11px; }
+
+/* The "Right now" card sits on the raised chrome tone, not pure paper. */
+.rightnow { background: var(--bg-2); padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+.rightnow .rn-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; }
+.rightnow .clock { font-family: var(--font-num); font-size: 40px; font-weight: 500; line-height: 1; letter-spacing: -0.02em; }
+
+.ring { width: 58px; height: 58px; flex-shrink: 0; }
+.ring circle { transition: stroke-dashoffset .8s var(--ease); }
+
+.home-tabs {
+  display: flex; align-items: center; gap: 4px; flex-wrap: wrap;
+  padding: 10px 0 0;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 22px;
+}
+.home-tab {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 9px 13px;
+  border: none; background: none;
+  border-bottom: 2px solid transparent;
+  font-size: 13px; font-weight: 500;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+.home-tab:hover { color: var(--text); }
+.home-tab[aria-selected="true"] { color: var(--accent); font-weight: 600; border-bottom-color: var(--accent); }
+.home-tab .count {
+  font-family: var(--font-num);
+  font-size: 11.5px; font-weight: 600;
+  color: var(--text-4);
+}
+
+/* Pill sub-tabs (Work Centre sections) — active is a raised pill, the rest
+   are quiet text, as in the source app. */
+.pill-tabs {
+  display: flex; align-items: center; gap: 4px; flex-wrap: wrap;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--paper);
+  margin-bottom: 22px;
+}
+.pill-tab {
+  padding: 8px 13px;
+  border: 1px solid transparent;
+  background: none;
+  border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 500;
+  color: var(--text-3);
+  white-space: nowrap;
+  transition: background .12s linear, color .12s linear;
+}
+.pill-tab:hover { color: var(--text); background: var(--bg-2); }
+.pill-tab[aria-selected="true"] {
+  background: var(--paper);
+  border-color: var(--line-2);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* Underline category tabs (General / Commercial) */
+.cat-tabs {
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 18px;
+}
+.cat-tab {
+  padding: 10px 4px;
+  margin-inline-end: 18px;
+  border: none; background: none;
+  border-bottom: 2px solid transparent;
+  font-size: 13.5px; font-weight: 500;
+  color: var(--text-3);
+}
+.cat-tab:hover { color: var(--text); }
+.cat-tab[aria-selected="true"] { color: var(--text); font-weight: 600; border-bottom-color: var(--accent); }
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 16px; align-items: start; }
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(330px, 100%), 1fr)); gap: 16px; align-items: start; }
+
+/* --- Recommended next action band ----------------------------------------- */
+.recommended {
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(105deg,
+      color-mix(in srgb, var(--accent) 9%, transparent) 0%,
+      color-mix(in srgb, var(--accent) 3%, transparent) 46%,
+      transparent 78%);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.recommended .rec-main {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 18px; flex-wrap: wrap;
+  padding: 18px 22px 20px;
+}
+.recommended .rec-eyebrow {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 10.5px; font-weight: 600; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--accent);
+}
+.recommended .rec-title { font-size: 21px; font-weight: 500; letter-spacing: -0.01em; margin-top: 11px; }
+.recommended .rec-meta {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  margin-top: 9px; font-size: 12.5px; color: var(--text-3);
+}
+.recommended .rec-meta .why { color: var(--accent); }
+.recommended .rec-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.recommended .rec-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+  border-top: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+}
+.recommended .rec-item {
+  display: flex; align-items: center; gap: 11px;
+  padding: 13px 18px;
+  border-inline-end: 1px solid color-mix(in srgb, var(--accent) 16%, transparent);
+  background: none; border-top: 0; border-bottom: 0; border-inline-start: 0;
+  text-align: start; cursor: pointer;
+  transition: background .12s linear;
+}
+.recommended .rec-item:last-child { border-inline-end: none; }
+.recommended .rec-item:hover { background: color-mix(in srgb, var(--accent) 7%, transparent); }
+.recommended .rec-item .ri-body { flex: 1; min-width: 0; }
+.recommended .rec-item .ri-title {
+  display: block; font-size: 12.5px; font-weight: 500; color: var(--text);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.recommended .rec-item .ri-meta { display: block; font-size: 11px; color: var(--text-3); margin-top: 2px; }
+.recommended .rec-item .ri-kicker {
+  display: block; font-size: 9.5px; font-weight: 600; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--bad); margin-bottom: 3px;
+}
+
+/* --- Queue row (Needs you now) -------------------------------------------- */
+.queue-row {
+  display: flex; align-items: center; gap: 13px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+  border-inline-start: 3px solid transparent;
+}
+.queue-row:last-child { border-bottom: none; }
+.queue-row.urgent { border-inline-start-color: var(--bad); }
+.queue-row.warn { border-inline-start-color: var(--warn); }
+.queue-row .q-body { flex: 1 1 auto; min-width: 0; }
+.queue-row .q-title { overflow-wrap: anywhere; }
+.queue-row .q-id { display: block; font-family: var(--font-num); font-size: 11px; font-weight: 600; color: var(--accent); }
+.queue-row .q-title { display: block; font-size: 13.5px; font-weight: 600; margin-top: 2px; }
+.queue-row .q-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 7px; }
+.queue-row .q-amount { font-family: var(--font-num); font-size: 14px; font-weight: 600; white-space: nowrap; }
+
+.action-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--line);
+}
+.action-row:last-child { border-bottom: none; }
+.action-row .a-body { flex: 1; min-width: 0; }
+.action-row .a-title { display: block; font-size: 13.5px; font-weight: 600; color: var(--text); }
+.action-row .a-meta { display: block; font-size: 11.5px; color: var(--text-3); margin-top: 3px; }
+
+.feed-item { display: flex; gap: 11px; padding: 12px 16px; border-bottom: 1px solid var(--line); }
+.feed-item:last-child { border-bottom: none; }
+.feed-item .f-dot {
+  width: 8px; height: 8px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; background: var(--accent);
+}
+.feed-item .f-text { display: block; font-size: 13px; color: var(--text-2); line-height: 1.5; }
+.feed-item .f-time { display: block; font-size: 11px; color: var(--text-4); margin-top: 3px; }
+
+/* --- Task detail ---------------------------------------------------------- */
+.detail-grid { display: grid; grid-template-columns: 1.7fr 1fr; gap: 16px; align-items: start; }
+.stage-track { display: flex; align-items: center; gap: 4px; overflow-x: auto; padding-bottom: 4px; }
+.stage-pill {
+  padding: 6px 13px;
+  border-radius: 999px;
+  font-size: 11.5px; font-weight: 600;
+  white-space: nowrap;
+  background: var(--paper-2);
+  color: var(--text-3);
+  flex-shrink: 0;
+}
+.stage-pill.done { background: var(--ok); color: #fff; }
+.stage-pill.current { background: var(--accent); color: var(--accent-ink); }
+
+.kv { display: flex; flex-direction: column; gap: 4px; }
+.kv .k { font-size: 10.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--text-3); }
+.kv .v { font-size: 13.5px; color: var(--text); }
+
+.subtask {
+  display: flex; flex-direction: column; gap: 8px;
+  padding: 13px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+}
+
+/* --- Mobile drawer nav ---------------------------------------------------- */
+.mobile-nav {
+  position: fixed; inset: 0; z-index: 90;
+  background: var(--scrim);
+  display: none;
+}
+.mobile-nav.open { display: block; animation: fade-in .15s var(--ease) both; }
+.mobile-nav .mn-panel {
+  position: absolute; inset-block: 0; inset-inline-start: 0;
+  width: min(300px, 86vw);
+  background: var(--paper);
+  border-inline-end: 1px solid var(--line);
+  padding: 16px;
+  overflow-y: auto;
+  display: flex; flex-direction: column; gap: 4px;
+  animation: rise .2s var(--ease) both;
+}
+.mobile-nav .mn-panel .nav-item { width: 100%; justify-content: flex-start; padding: 11px 12px; font-size: 14px; }
+.mobile-nav .mn-head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; margin-bottom: 10px; padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
