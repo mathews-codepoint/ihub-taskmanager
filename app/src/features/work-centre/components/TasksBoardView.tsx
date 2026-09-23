@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { useNavigate } from 'react-router'
 
 import { MoreIcon } from '../../../shared/ui'
 import { BOARD_STATUS_LABELS, TASKS_MOCK, type TaskListRow, type TaskStatus } from '../data/tasksMock'
@@ -13,12 +14,25 @@ const PRIORITY_TONE: Record<TaskListRow['priority'], string> = {
   Critical: 'bg-bad/[0.14] text-bad',
 }
 
-function TaskCard({ task }: { task: TaskListRow }) {
+function TaskCard({ task, onOpen }: { task: TaskListRow; onOpen: () => void }) {
   return (
-    <div className="flex flex-col gap-2 rounded-lg border border-line bg-paper p-3">
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={onOpen}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter') onOpen()
+      }}
+      className="flex cursor-pointer flex-col gap-2 rounded-lg border border-line bg-paper p-3 hover:border-accent"
+    >
       <div className="flex items-start justify-between gap-2">
         <span className="text-sm font-semibold text-text">{task.id}</span>
-        <button type="button" aria-label="Card menu" className="flex h-6 w-6 items-center justify-center rounded-md text-text-3 hover:bg-bg-2">
+        <button
+          type="button"
+          aria-label="Card menu"
+          onClick={(event) => event.stopPropagation()}
+          className="flex h-6 w-6 items-center justify-center rounded-md text-text-3 hover:bg-bg-2"
+        >
           <MoreIcon size={14} />
         </button>
       </div>
@@ -33,6 +47,7 @@ function TaskCard({ task }: { task: TaskListRow }) {
 }
 
 export function TasksBoardView({ scope }: { scope: string }) {
+  const navigate = useNavigate()
   const [statusFilter, setStatusFilter] = useState<TaskStatus | 'all'>('all')
   const [orientation, setOrientation] = useState<'horizontal' | 'vertical'>('horizontal')
 
@@ -84,7 +99,7 @@ export function TasksBoardView({ scope }: { scope: string }) {
               </div>
               <div className={orientation === 'horizontal' ? 'flex flex-col gap-3' : 'grid grid-cols-3 gap-3'}>
                 {tasks.map((task) => (
-                  <TaskCard key={task.id} task={task} />
+                  <TaskCard key={task.id} task={task} onOpen={() => navigate(`/workcentre/tasks/${task.id}`)} />
                 ))}
               </div>
               <div className="rounded-lg border border-dashed border-line py-4 text-center text-xs text-text-4">

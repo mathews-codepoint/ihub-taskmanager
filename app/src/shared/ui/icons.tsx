@@ -347,6 +347,14 @@ export function MapPinIcon(props: IconProps) {
   )
 }
 
+export function ArrowLeftIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M20 12H4M10 6l-6 6 6 6" />
+    </IconBase>
+  )
+}
+
 export function CameraIcon(props: IconProps) {
   return (
     <IconBase {...props}>

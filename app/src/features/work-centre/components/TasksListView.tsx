@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { useNavigate } from 'react-router'
 
 import { Chip } from '../../dashboard/components/Chip'
 import { EyeIcon, PencilIcon, TrashIcon } from '../../../shared/ui'
@@ -7,6 +8,7 @@ import { TASKS_MOCK, type TaskStatus } from '../data/tasksMock'
 import { TasksToolbar } from './TasksToolbar'
 
 export function TasksListView({ scope }: { scope: string }) {
+  const navigate = useNavigate()
   const [statusFilter, setStatusFilter] = useState<TaskStatus | 'all'>('all')
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState<number | 'all'>(10)
@@ -95,7 +97,12 @@ export function TasksListView({ scope }: { scope: string }) {
                   </td>
                   <td className="px-3 py-2.5">
                     <div className="flex items-center justify-end gap-1">
-                      <button type="button" aria-label="View" className="flex h-7 w-7 items-center justify-center rounded-md text-text-3 hover:bg-bg-2">
+                      <button
+                        type="button"
+                        aria-label="View"
+                        onClick={() => navigate(`/workcentre/tasks/${task.id}`)}
+                        className="flex h-7 w-7 items-center justify-center rounded-md text-text-3 hover:bg-bg-2"
+                      >
                         <EyeIcon size={14} />
                       </button>
                       <button type="button" aria-label="Edit" className="flex h-7 w-7 items-center justify-center rounded-md text-text-3 hover:bg-bg-2">
