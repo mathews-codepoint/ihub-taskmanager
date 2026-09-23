@@ -1,5 +1,6 @@
 import { createBrowserRouter, type RouteObject } from 'react-router'
 
+import { appraisalRoutes } from '../../features/appraisal/routes'
 import { authRoutes } from '../../features/auth/routes'
 import { dashboardRoutes } from '../../features/dashboard/routes'
 import { financeBudgetsRoutes } from '../../features/finance-budgets/routes'
@@ -36,6 +37,7 @@ export const routes: RouteObject[] = [
       ...financeBudgetsRoutes,
       ...hrRoutes,
       ...qualityComplianceRoutes,
+      ...appraisalRoutes,
       { path: '/notifications', element: <ScaffoldPage title="Notifications" /> },
       { path: '/settings-configuration/configuration', element: <ScaffoldPage title="Settings & Configuration" /> },
     ],
