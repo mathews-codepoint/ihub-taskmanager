@@ -1,12 +1,15 @@
 import { useMemo, useState } from 'react'
 
 import { HomeTabs } from '../../dashboard/components/HomeTabs'
+import { CreateTaskForm } from '../components/CreateTaskForm'
 import { SegmentedToggle } from '../components/SegmentedToggle'
 import { TaskViewToolbar } from '../components/TaskViewToolbar'
 import { WorkCentreBodyPlaceholder } from '../components/WorkCentreBodyPlaceholder'
 import { WorkCentreCategoryTabs } from '../components/WorkCentreCategoryTabs'
 import { WorkCentreModeTabs } from '../components/WorkCentreModeTabs'
 import { WorkCentreSubTabs } from '../components/WorkCentreSubTabs'
+import { TasksBoardView } from '../components/TasksBoardView'
+import { TasksListView } from '../components/TasksListView'
 import { TASK_SCOPE_FILTERS, TASK_VIEW_MODES, WORK_CENTRE_MODE_CATEGORIES, type WorkCentreMode } from '../data/workCentreTabs'
 
 export function WorkCentrePage() {
@@ -39,6 +42,8 @@ export function WorkCentrePage() {
       <HomeTabs activeTab="workcentre" />
 
       <div className="mt-6 flex flex-col gap-5">
+        <h1 className="text-2xl font-semibold text-text">{activeCategory.label}</h1>
+
         <WorkCentreModeTabs
           mode={mode}
           onChange={(nextMode) => setMode(nextMode)}
@@ -75,7 +80,15 @@ export function WorkCentrePage() {
           />
         ) : null}
 
-        <WorkCentreBodyPlaceholder label={bodyLabel} />
+        {activeCategory.id === 'create-task' ? (
+          <CreateTaskForm />
+        ) : activeCategory.id === 'tasks' && taskViewMode === 'list' ? (
+          <TasksListView scope={taskScope} />
+        ) : activeCategory.id === 'tasks' && taskViewMode === 'board' ? (
+          <TasksBoardView scope={taskScope} />
+        ) : (
+          <WorkCentreBodyPlaceholder label={bodyLabel} />
+        )}
       </div>
     </div>
   )

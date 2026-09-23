@@ -337,3 +337,21 @@ export function MoonIcon(props: IconProps) {
     </IconBase>
   )
 }
+
+export function MapPinIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M12 21s7-6.1 7-11.5A7 7 0 0 0 5 9.5C5 14.9 12 21 12 21Z" />
+      <circle cx="12" cy="9.5" r="2.5" />
+    </IconBase>
+  )
+}
+
+export function CameraIcon(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M4 8a2 2 0 0 1 2-2h1.5l1-1.6a1.5 1.5 0 0 1 1.3-.9h4.4a1.5 1.5 0 0 1 1.3.9L16.5 6H18a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8Z" />
+      <circle cx="12" cy="13" r="3.5" />
+    </IconBase>
+  )
+}
