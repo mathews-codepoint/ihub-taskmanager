@@ -3,6 +3,7 @@ import { createBrowserRouter, type RouteObject } from 'react-router'
 import { authRoutes } from '../../features/auth/routes'
 import { dashboardRoutes } from '../../features/dashboard/routes'
 import { mastersRoutes } from '../../features/masters/routes'
+import { workCentreRoutes } from '../../features/work-centre/routes'
 import { AppLayout } from '../../layouts/AppLayout'
 import { ProtectedRoute } from './guards/ProtectedRoute'
 import { UnprotectedOnlyRoute } from './guards/UnprotectedOnlyRoute'
@@ -28,7 +29,7 @@ export const routes: RouteObject[] = [
     children: [
       ...dashboardRoutes,
       ...mastersRoutes,
-      { path: '/workcentre', element: <ScaffoldPage title="Work Centre" /> },
+      ...workCentreRoutes,
       { path: '/notifications', element: <ScaffoldPage title="Notifications" /> },
       { path: '/settings-configuration/configuration', element: <ScaffoldPage title="Settings & Configuration" /> },
     ],

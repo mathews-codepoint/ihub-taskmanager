@@ -305,6 +305,10 @@ function MobileNavDrawer({
           </button>
         </div>
         <nav className="flex flex-1 flex-col gap-0.5 overflow-y-auto p-2.5">
+          <NavLink to="/" end onClick={onClose} className={({ isActive }) => (isActive ? navItemActiveClass : navItemClass)}>
+            <DashboardIcon size={15} />
+            Home
+          </NavLink>
           {menus.ungroupedMenus.map((menu) => (
             <MenuLink key={menu.id} menu={menu} onNavigate={onClose} />
           ))}
@@ -413,6 +417,10 @@ export function TopNav() {
         <Logo />
 
         <nav className="hidden min-w-0 flex-1 items-center gap-0.5 overflow-x-auto lg:flex">
+          <NavLink to="/" end className={({ isActive }) => (isActive ? navItemActiveClass : navItemClass)}>
+            <DashboardIcon size={15} />
+            Home
+          </NavLink>
           {menus.ungroupedMenus.map((menu) => (
             <MenuLink key={menu.id} menu={menu} />
           ))}

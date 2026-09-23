@@ -206,6 +206,90 @@ export const DEPARTMENT_WORKLOAD: Array<{ name: string; values: number[] }> = [
 
 export const WORKLOAD_META = { totalDepartments: DEPARTMENT_WORKLOAD.length, range: '7/13 – 7/19', avgLoadPerDay: 19 }
 
+export const EMPLOYEE_WORKLOAD: Array<{ name: string; values: number[] }> = [
+  { name: 'A. Al-Harbi', values: [6, 10, 18, 22, 15, 9, 5] },
+  { name: 'N. Farouk', values: [9, 14, 20, 17, 12, 8, 6] },
+  { name: 'K. Ibrahim', values: [12, 20, 28, 31, 24, 16, 11] },
+  { name: 'L. Haddad', values: [4, 8, 13, 11, 16, 9, 5] },
+  { name: 'Y. Malik', values: [15, 22, 30, 26, 29, 21, 14] },
+  { name: 'R. Nasser', values: [7, 11, 15, 19, 13, 10, 6] },
+  { name: 'M. Otaibi', values: [10, 16, 24, 20, 18, 13, 9] },
+  { name: 'S. Sabah', values: [3, 6, 10, 14, 12, 8, 4] },
+  { name: 'T. Nasser', values: [13, 19, 25, 23, 20, 15, 10] },
+]
+
+export const EMPLOYEE_WORKLOAD_META = { totalEmployees: EMPLOYEE_WORKLOAD.length, range: '7/13 – 7/19', avgLoadPerDay: 19 }
+
+export interface DeptTask {
+  id: string
+  title: string
+  status: 'Open' | 'Done' | 'In progress' | 'Review'
+  tone: ChipTone
+  /** Index into WORKLOAD_DAYS the bar starts on. */
+  startDay: number
+  /** Length of the bar in days. */
+  span: number
+}
+
+/** Per-department task bars shown in the workload row's expanded Gantt strip. */
+export const DEPARTMENT_TASKS: Record<string, DeptTask[]> = {
+  TX: [
+    { id: 'JO-1488', title: 'Electrical load test', status: 'Open', tone: 'warn', startDay: 0, span: 2 },
+    { id: 'JO-1214', title: 'HVAC compressor overhaul', status: 'Open', tone: 'bad', startDay: 2, span: 2 },
+    { id: 'JO-1581', title: 'Signage Installation', status: 'Done', tone: 'ok', startDay: 0, span: 3 },
+  ],
+  Finance: [
+    { id: 'FIN-2201', title: 'Quarterly audit prep', status: 'Open', tone: 'warn', startDay: 0, span: 2 },
+    { id: 'FIN-2205', title: 'Vendor invoice reconciliation', status: 'Done', tone: 'ok', startDay: 1, span: 3 },
+  ],
+  'F Operations': [
+    { id: 'OPS-3110', title: 'Weekend inventory count', status: 'Open', tone: 'warn', startDay: 2, span: 2 },
+    { id: 'OPS-3115', title: 'Vendor onboarding', status: 'Open', tone: 'bad', startDay: 0, span: 2 },
+  ],
+  IT: [
+    { id: 'IT-4020', title: 'Network upgrade — Zone B', status: 'Open', tone: 'bad', startDay: 1, span: 3 },
+    { id: 'IT-4025', title: 'POS terminal rollout', status: 'Open', tone: 'warn', startDay: 3, span: 2 },
+    { id: 'IT-4030', title: 'Firewall audit', status: 'Done', tone: 'ok', startDay: 0, span: 2 },
+  ],
+  HR: [{ id: 'HR-1180', title: 'Appraisal cycle review', status: 'Open', tone: 'warn', startDay: 2, span: 2 }],
+  Development: [
+    { id: 'DEV-5510', title: 'Sprint 24 release', status: 'Open', tone: 'bad', startDay: 1, span: 3 },
+    { id: 'DEV-5515', title: 'API migration', status: 'Done', tone: 'ok', startDay: 0, span: 2 },
+  ],
+  Security: [{ id: 'SEC-2210', title: 'Access control audit', status: 'Open', tone: 'warn', startDay: 2, span: 2 }],
+  'P&L': [{ id: 'PNL-3301', title: 'Budget variance review', status: 'Open', tone: 'warn', startDay: 3, span: 2 }],
+  Technical: [
+    { id: 'TEC-4410', title: 'Preventive maintenance — HVAC', status: 'Open', tone: 'bad', startDay: 1, span: 3 },
+    { id: 'TEC-4415', title: 'Elevator inspection', status: 'Done', tone: 'ok', startDay: 0, span: 2 },
+  ],
+}
+
+/** Per-employee task bars shown in the workload row's expanded Gantt strip
+ * (Employee view), transcribed from the live prototype's Y. Malik example. */
+export const EMPLOYEE_TASKS: Record<string, DeptTask[]> = {
+  'A. Al-Harbi': [
+    { id: 'JO-1301', title: 'Elevator inspection — Zone A', status: 'Open', tone: 'warn', startDay: 0, span: 2 },
+    { id: 'JO-1322', title: 'Lighting retrofit', status: 'Done', tone: 'ok', startDay: 3, span: 2 },
+  ],
+  'N. Farouk': [{ id: 'JO-1405', title: 'Fire alarm test', status: 'Review', tone: 'accent', startDay: 1, span: 2 }],
+  'K. Ibrahim': [
+    { id: 'JO-1512', title: 'Generator load test', status: 'In progress', tone: 'bad', startDay: 2, span: 3 },
+    { id: 'JO-1520', title: 'Panel upgrade', status: 'Open', tone: 'warn', startDay: 0, span: 1 },
+  ],
+  'L. Haddad': [{ id: 'JO-1622', title: 'Plumbing check — B2', status: 'Done', tone: 'ok', startDay: 0, span: 2 }],
+  'Y. Malik': [
+    { id: 'JO-1811', title: 'POS terminal replacement', status: 'Review', tone: 'warn', startDay: 0, span: 1 },
+    { id: 'JO-1239', title: 'CCTV recalibration', status: 'Open', tone: 'accent', startDay: 1, span: 4 },
+    { id: 'JO-1149', title: 'CCTV recalibration', status: 'Review', tone: 'bad', startDay: 2, span: 5 },
+    { id: 'JO-1187', title: 'Access-control repair', status: 'Review', tone: 'accent', startDay: 2, span: 2 },
+    { id: 'JO-1701', title: 'Ride sensor calibration', status: 'In progress', tone: 'accent', startDay: 3, span: 1 },
+  ],
+  'R. Nasser': [{ id: 'JO-1810', title: 'Escalator lubrication', status: 'Open', tone: 'warn', startDay: 1, span: 2 }],
+  'M. Otaibi': [{ id: 'JO-1902', title: 'Signage repair', status: 'Review', tone: 'accent', startDay: 2, span: 2 }],
+  'S. Sabah': [{ id: 'JO-2005', title: 'Paint touch-up — lobby', status: 'Done', tone: 'ok', startDay: 0, span: 3 }],
+  'T. Nasser': [{ id: 'JO-2110', title: 'HVAC filter replacement', status: 'In progress', tone: 'bad', startDay: 3, span: 2 }],
+}
+
 export const STATUS_DISTRIBUTION = [
   { label: 'New', value: 18, pct: 11, color: 'var(--info)' },
   { label: 'Assigned', value: 24, pct: 15, color: 'var(--accent)' },
