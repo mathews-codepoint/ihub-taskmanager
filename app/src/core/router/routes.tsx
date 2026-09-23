@@ -4,6 +4,7 @@ import { appraisalRoutes } from '../../features/appraisal/routes'
 import { authRoutes } from '../../features/auth/routes'
 import { dashboardRoutes } from '../../features/dashboard/routes'
 import { financeBudgetsRoutes } from '../../features/finance-budgets/routes'
+import { historyRoutes } from '../../features/history/routes'
 import { hrRoutes } from '../../features/hr/routes'
 import { mastersRoutes } from '../../features/masters/routes'
 import { qualityComplianceRoutes } from '../../features/quality-compliance/routes'
@@ -40,6 +41,7 @@ export const routes: RouteObject[] = [
       ...qualityComplianceRoutes,
       ...appraisalRoutes,
       ...workflowsRoutes,
+      ...historyRoutes,
       { path: '/notifications', element: <ScaffoldPage title="Notifications" /> },
       { path: '/settings-configuration/configuration', element: <ScaffoldPage title="Settings & Configuration" /> },
     ],
