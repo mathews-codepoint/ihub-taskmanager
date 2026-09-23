@@ -37,7 +37,7 @@ export function AnalyticsInsights() {
       <h2 className="text-[15px] font-semibold text-text">Analytics &amp; Insights</h2>
       <p className="mt-0.5 text-xs text-text-3">A snapshot of status, SLA, priority and departmental performance across your queue.</p>
 
-      <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
         <ChartCard title="Status Distribution" sub="Percentage of items by status">
           <div className="flex items-center gap-4">
             <DonutChart data={STATUS_DISTRIBUTION} centerLabel={String(totalTasks)} centerSub="tasks" />
@@ -87,8 +87,14 @@ export function AnalyticsInsights() {
 
         <ChartCard title="Top Problem Areas" sub="Top 5 departments with the highest issues">
           <div className="flex flex-col gap-3">
-            {TOP_PROBLEM_AREAS.map((d) => (
-              <HorizontalBarRow key={d.label} label={d.label} value={d.value} max={topProblemMax} color="var(--accent)" />
+            {TOP_PROBLEM_AREAS.map((d, i) => (
+              <HorizontalBarRow
+                key={d.label}
+                label={d.label}
+                value={d.value}
+                max={topProblemMax}
+                color={i < 2 ? 'var(--bad)' : i < 4 ? 'var(--warn)' : 'var(--info)'}
+              />
             ))}
           </div>
         </ChartCard>
@@ -118,30 +124,34 @@ export function AnalyticsInsights() {
           <VerticalBarChart data={ISSUE_AGING.map((d, i) => ({ ...d, color: AGING_COLORS[i] }))} />
         </ChartCard>
 
-        <ChartCard title="Department Performance" sub="Issue volume and resolution performance by department">
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-            <div>
-              <div className="mb-2 text-[11px] font-medium uppercase tracking-wide text-text-4">Issue volume</div>
-              <div className="flex flex-col gap-3">
-                {DEPARTMENT_PERFORMANCE.issueVolume.map((d) => (
-                  <HorizontalBarRow key={d.label} label={d.label} value={d.value} max={issueVolumeMax} color="var(--blue-med)" />
-                ))}
+        <div className="sm:col-span-2">
+          <ChartCard title="Department Performance" sub="Issue volume and resolution performance by department">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+              <div>
+                <div className="mb-2 text-[11px] font-medium uppercase tracking-wide text-text-4">Issue volume</div>
+                <div className="flex flex-col gap-3">
+                  {DEPARTMENT_PERFORMANCE.issueVolume.map((d) => (
+                    <HorizontalBarRow key={d.label} label={d.label} value={d.value} max={issueVolumeMax} color="var(--blue-med)" />
+                  ))}
+                </div>
+              </div>
+              <div>
+                <div className="mb-2 text-[11px] font-medium uppercase tracking-wide text-text-4">Resolution performance</div>
+                <div className="flex flex-col gap-3">
+                  {DEPARTMENT_PERFORMANCE.resolutionPct.map((d) => (
+                    <HorizontalBarRow key={d.label} label={d.label} value={d.value} max={100} color="var(--ok)" suffix="%" />
+                  ))}
+                </div>
               </div>
             </div>
-            <div>
-              <div className="mb-2 text-[11px] font-medium uppercase tracking-wide text-text-4">Resolution performance</div>
-              <div className="flex flex-col gap-3">
-                {DEPARTMENT_PERFORMANCE.resolutionPct.map((d) => (
-                  <HorizontalBarRow key={d.label} label={d.label} value={d.value} max={100} color="var(--ok)" suffix="%" />
-                ))}
-              </div>
-            </div>
-          </div>
-        </ChartCard>
+          </ChartCard>
+        </div>
 
-        <ChartCard title="SLA Breach Analysis" sub="SLA breaches by department">
-          <VerticalBarChart data={SLA_BREACH_ANALYSIS.map((d) => ({ ...d, color: BREACH_COLOR }))} />
-        </ChartCard>
+        <div className="sm:col-span-2">
+          <ChartCard title="SLA Breach Analysis" sub="SLA breaches by department">
+            <VerticalBarChart data={SLA_BREACH_ANALYSIS.map((d) => ({ ...d, color: BREACH_COLOR }))} />
+          </ChartCard>
+        </div>
       </div>
     </div>
   )

@@ -193,14 +193,15 @@ export const SLA_COMPLIANCE_MONTH: SlaMonthRow[] = [
 export const WORKLOAD_DAYS = ['7/13\nMon', '7/14\nTue', '7/15\nWed', '7/16\nThu', '7/17\nFri', '7/18\nSat', '7/19\nSun']
 
 export const DEPARTMENT_WORKLOAD: Array<{ name: string; values: number[] }> = [
-  { name: 'Finance', values: [8, 12, 25, 35, 28, 18, 10] },
-  { name: 'Operations', values: [5, 15, 22, 19, 14, 12, 8] },
-  { name: 'IT', values: [6, 13, 20, 25, 18, 11, 7] },
-  { name: 'HR', values: [22, 32, 45, 50, 38, 27, 20] },
-  { name: 'Development', values: [4, 9, 16, 14, 19, 11, 6] },
-  { name: 'Security', values: [17, 24, 31, 28, 33, 26, 19] },
-  { name: 'P&L', values: [9, 14, 18, 21, 16, 12, 8] },
-  { name: 'Technical', values: [3, 7, 12, 18, 15, 10, 5] },
+  { name: 'TX', values: [8, 12, 25, 35, 28, 18, 10] },
+  { name: 'Finance', values: [5, 15, 22, 19, 14, 12, 8] },
+  { name: 'F Operations', values: [6, 13, 20, 25, 18, 11, 7] },
+  { name: 'IT', values: [22, 32, 45, 50, 38, 27, 20] },
+  { name: 'HR', values: [4, 9, 16, 14, 19, 11, 6] },
+  { name: 'Development', values: [17, 24, 31, 28, 33, 26, 19] },
+  { name: 'Security', values: [9, 14, 18, 21, 16, 12, 8] },
+  { name: 'P&L', values: [3, 7, 12, 18, 15, 10, 5] },
+  { name: 'Technical', values: [19, 26, 34, 29, 23, 17, 13] },
 ]
 
 export const WORKLOAD_META = { totalDepartments: DEPARTMENT_WORKLOAD.length, range: '7/13 – 7/19', avgLoadPerDay: 19 }

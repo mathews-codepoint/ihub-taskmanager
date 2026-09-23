@@ -25,7 +25,13 @@ export const routes: RouteObject[] = [
   },
   {
     element: <AppLayout />,
-    children: [...dashboardRoutes, ...mastersRoutes, { path: '/workcentre', element: <ScaffoldPage title="Work Centre" /> }],
+    children: [
+      ...dashboardRoutes,
+      ...mastersRoutes,
+      { path: '/workcentre', element: <ScaffoldPage title="Work Centre" /> },
+      { path: '/notifications', element: <ScaffoldPage title="Notifications" /> },
+      { path: '/settings-configuration/configuration', element: <ScaffoldPage title="Settings & Configuration" /> },
+    ],
   },
   {
     element: <ProtectedRoute />,

@@ -22,6 +22,7 @@
   --warn: #b5791f; /* Amber family — pending */
   --bad: #d32414; /* Signal Red — risk */
   --info: #5b53a8; /* Periwinkle — neutral info */
+  --crit: #e0538a; /* Magenta — critical load tier, above --bad */
 
   --accent: #93358d; /* Tamdeen Magenta — primary action (set live by app) */
   --accent-dim: #93358d1f; /* 12% tint — active nav, chips, focus ring */
@@ -92,6 +93,7 @@
   --warn: oklch(0.82 0.14 75);
   --bad: oklch(0.72 0.16 22);
   --info: oklch(0.78 0.12 235);
+  --crit: oklch(0.72 0.14 340);
 
   /* Blues lifted for legibility on dark surfaces */
   --blue-med: #8aa4e6;

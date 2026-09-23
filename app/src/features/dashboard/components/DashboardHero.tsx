@@ -47,11 +47,11 @@ export function DashboardHero({ userName }: { userName: string }) {
           className="text-text"
           style={{ fontSize: 'clamp(36px, 5.2vw, 64px)', fontWeight: 400, letterSpacing: '-0.035em', lineHeight: 1.02 }}
         >
-          {greeting}, <em className="font-serif font-medium italic text-accent">{userName}</em>
+          {greeting}, <em className="font-serif font-medium italic text-accent">{userName || 'Ahmad'}</em>
           <span className="text-text-3">. Your day starts at</span>{' '}
           <em className="font-serif font-medium italic text-accent">{dayStartsAt}</em>.
         </h1>
-        <p className="mt-[18px] max-w-[620px] text-[17px] leading-[1.55] text-text-2">{summary}</p>
+        <p className="mt-[18px] max-w-[620px] text-sm leading-[1.55] text-text-2">{summary}</p>
 
         <div className="mt-6 flex gap-2.5">
           <button

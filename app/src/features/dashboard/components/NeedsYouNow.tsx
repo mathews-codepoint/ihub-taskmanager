@@ -1,8 +1,33 @@
 import { useNavigate } from 'react-router'
 
-import { ArrowRightIcon } from '../../../shared/ui/icons'
+import { ArrowRightIcon, CheckIcon, CloseIcon, PencilIcon, PlusIcon, RefreshIcon } from '../../../shared/ui/icons'
 import { Chip } from './Chip'
 import { NEEDS_YOU_NOW, QUEUE_TOTAL_COUNT } from '../data/overviewMock'
+
+function RowAction({
+  label,
+  icon,
+  primary,
+}: {
+  label: string
+  icon: React.ReactNode
+  primary?: boolean
+}) {
+  return (
+    <button
+      type="button"
+      title={label}
+      aria-label={label}
+      className={
+        primary
+          ? 'flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-med text-white'
+          : 'flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-text-3 hover:bg-bg-2'
+      }
+    >
+      {icon}
+    </button>
+  )
+}
 
 export function NeedsYouNow() {
   const navigate = useNavigate()
@@ -40,13 +65,13 @@ export function NeedsYouNow() {
               </div>
             </div>
             <span className="font-num shrink-0 text-sm font-semibold text-text-2">{item.amount}</span>
-            <button
-              type="button"
-              aria-label={`Open ${item.id}`}
-              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-text-3 hover:bg-bg-2"
-            >
-              <ArrowRightIcon size={15} />
-            </button>
+            <div className="flex shrink-0 items-center gap-1">
+              <RowAction label="Approve" icon={<CheckIcon size={14} />} primary />
+              <RowAction label="Edit" icon={<PencilIcon size={14} />} />
+              <RowAction label="Send back" icon={<RefreshIcon size={14} />} />
+              <RowAction label="Reject" icon={<CloseIcon size={14} />} />
+              <RowAction label="Pin to top" icon={<PlusIcon size={14} />} />
+            </div>
           </div>
         ))}
       </div>

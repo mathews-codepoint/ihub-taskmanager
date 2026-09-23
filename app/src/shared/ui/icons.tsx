@@ -320,6 +320,16 @@ export function SunIcon(props: IconProps) {
   )
 }
 
+export function MoreIcon(props: IconProps) {
+  return (
+    <IconBase {...props} strokeWidth={0} fill="currentColor">
+      <circle cx="5" cy="12" r="1.6" />
+      <circle cx="12" cy="12" r="1.6" />
+      <circle cx="19" cy="12" r="1.6" />
+    </IconBase>
+  )
+}
+
 export function MoonIcon(props: IconProps) {
   return (
     <IconBase {...props}>

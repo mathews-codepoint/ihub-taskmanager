@@ -31,6 +31,7 @@
   --color-warn: var(--warn);
   --color-bad: var(--bad);
   --color-info: var(--info);
+  --color-crit: var(--crit);
 
   --color-accent: var(--accent);
   --color-accent-dim: var(--accent-dim);
@@ -100,6 +101,7 @@
   --color-warn: var(--warn);
   --color-bad: var(--bad);
   --color-info: var(--info);
+  --color-crit: var(--crit);
 
   --color-blue-med: var(--blue-med);
   --color-blue-soft: var(--blue-soft);
