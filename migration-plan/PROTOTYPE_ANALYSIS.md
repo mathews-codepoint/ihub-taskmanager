@@ -178,8 +178,10 @@ a portal-modal in several places (`window.CreateTaskPanel`, e.g.
   targeting a `position: fixed; inset: 0` scrim
   (`rgba(26,26,31,0.5)` standard, `rgba(20,20,30,.44)` for a second,
   slightly different modal family — both exist side by side, not unified).
-  ~25 separate `ReactDOM.createPortal` call sites for modals/dialogs alone
-  (see §2). No shared focus-trap utility was found — Escape-to-close is
+  `ReactDOM.createPortal` appears on 46 lines total across `index.html`
+  (some of those are drawers/menus, not modals — see §2 for the ~25
+  modal-specific call sites this figure includes). No shared focus-trap
+  utility was found — Escape-to-close is
   wired ad hoc per component (multiple independent `window.addEventListener
   ('keydown', ...)` effects, e.g. `:1563-1565`, `:2994-2997`, `:3122-3125`,
   `:14471-14474`), not a single reusable hook.
@@ -189,8 +191,15 @@ a portal-modal in several places (`window.CreateTaskPanel`, e.g.
   items (`window.WorkflowDrawer`) with its own open/close state
   (`:13464`, `openDrawer()` helper used ~15 places, `:12129` onward) and a
   distinct set of `@keyframes occScrim` / `@keyframes occSlide` CSS
-  animations injected specifically for it (`:14321-14324`, including an
-  explicit RTL mirror: `body[dir="rtl"] @keyframes occSlide`).
+  animations injected specifically for it (`:14321-14324`). **The RTL
+  mirror at `:14323` (`body[dir="rtl"] @keyframes occSlide { ... }`) is
+  invalid CSS** — `@keyframes` cannot be nested inside a selector, so
+  browsers parse-error and discard this rule. The intent (flip the slide
+  direction under `dir="rtl"`) is clear from the code, but as written the
+  drawer does **not** actually mirror in Arabic. Migration should
+  implement the RTL-flip correctly (e.g. a separate `dir`-scoped keyframe
+  name, or a logical-property-based transform) rather than porting this
+  rule as-is.
 - **Mega menu** (`MegaMenuNavItem`, `:2860-2985`): click-to-open (a code
   comment at `:2857-2859` explicitly notes this was changed from hover to
   click "to match the NotificationsBell's overlay+panel pattern"), renders
@@ -234,10 +243,13 @@ triggering a synthetic `<a download>` click
 provides an "Excel / CSV / PDF" dropdown menu used under most filter bars.
 **Bulk import** is more sophisticated: `js/xlsx.core.min.js` (a local copy
 of SheetJS, loaded via `<script src>` at `:23`) is used to parse uploaded
-`.xlsx`/`.xls`/`.csv` files for bulk "Sub Area" upload
-(`SubAreaAddModal`, `:3674-3792`, `isSheet` regex check at `:3716`) — this
-is the one place a genuine third-party library is used for data
-tables/spreadsheets.
+`.xlsx`/`.xls`/`.csv` files for bulk upload in **two** places, not one:
+`PcCategoryAddModal` (`:3554-3672`, `isSheet` regex check at `:3584`) and
+`SubAreaAddModal` (`:3674-3792`, `isSheet` regex check at `:3716`) — both
+near-identical implementations of the same file-read/parse/preview flow.
+This is the one genuine third-party library used for data
+tables/spreadsheets, and both call sites are in scope for the task 4.6
+SheetJS decision, not just the one.
 
 ---
 
@@ -482,13 +494,18 @@ purpose-built screen or is currently a `StubScreen` placeholder:
 - **Appraisal** — `AppraisalScreen` (present but noted in the nav tree as
   a single leaf with no children, i.e. shallow compared to other domains).
 - **Quality & Compliance** — `ChecklistScreen`, `window.SLAScreen`.
-- **Masters** (mega menu, 47 items / 7 columns per the code comment at
-  `:2391` region) and **Masters (List)** (categorized tab browser, same
-  underlying `MASTERS_CATEGORIES` data, alternate navigation pattern) —
-  both use `MasterListingMock` for listings and a shared set of
-  view/edit/delete/filter modals (§2, §4); individual master-type detail
-  pages that aren't built yet show `MasterPagePending` rather than
-  `StubScreen`.
+- **Masters** (mega menu, `MASTERS_COLUMNS`, confirmed 47 items across 7
+  columns) and **Masters (List)** (categorized tab browser) — **these use
+  two independent data sources, not the same one.** The mega menu is
+  `MASTERS_COLUMNS` (`:2323-2386`, flattened into `MASTERS_ITEMS`).
+  Masters (List) is a separate `MASTERS_CATEGORIES` array (`:2391-2559`,
+  confirmed 4 categories — Admin, General, HR, Operation — 80 leaf items
+  total), which the code comment at `:2387-2390` explicitly says is
+  "independent of `MASTERS_ITEMS`/`MASTERS_COLUMNS` ... which stay exactly
+  as they were for the original Masters mega menu." Both still use
+  `MasterListingMock` for listings and a shared set of view/edit/delete/
+  filter modals (§2, §4); individual master-type detail pages that aren't
+  built yet show `MasterPagePending` rather than `StubScreen`.
 - **History** (`HistoryScreen`) — shell is real and routes correctly, but
   depth of actual content varies by sub-branch (Work Centre history is the
   most filled-in; several of its sibling branches are thin).
