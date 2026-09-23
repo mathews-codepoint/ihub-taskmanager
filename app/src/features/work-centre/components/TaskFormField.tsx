@@ -8,7 +8,7 @@ const inputClass =
 interface BaseProps {
   label: string
   required?: boolean
-  error?: string
+  error?: string | undefined
 }
 
 export function TaskTextField({

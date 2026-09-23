@@ -241,11 +241,11 @@ export function LocationDetailsModal({
                       <dl className="grid grid-cols-2 gap-x-4 gap-y-1.5 border-t border-line px-3 py-2.5 text-xs">
                         <div>
                           <dt className="text-text-4">Priority</dt>
-                          <dd className="text-text-2">{labelFor(PRIORITY_OPTIONS, row.priority)}</dd>
+                          <dd className="text-text-2">{PRIORITY_OPTIONS.find((option) => option.id === row.priority)?.label ?? row.priority}</dd>
                         </div>
                         <div>
                           <dt className="text-text-4">Severity</dt>
-                          <dd className="text-text-2">{labelFor(SEVERITY_OPTIONS, row.severity)}</dd>
+                          <dd className="text-text-2">{SEVERITY_OPTIONS.find((option) => option.id === row.severity)?.label ?? row.severity}</dd>
                         </div>
                         <div>
                           <dt className="text-text-4">Process Owner</dt>

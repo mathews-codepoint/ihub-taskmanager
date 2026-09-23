@@ -41,7 +41,7 @@ export interface ActivityRow {
   action: string
 }
 
-export interface TaskDetail extends TaskListRow {
+export interface TaskDetail extends Omit<TaskListRow, 'dependencies'> {
   stageIndex: number
   countdown: string
   stageTimers: { label: string; value: string }[]

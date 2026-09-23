@@ -6,6 +6,8 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
+    port: process.env.PORT ? Number(process.env.PORT) : 5173,
+    strictPort: false,
     // Dev-only: proxies /api/v1 to the local Node backend so the browser
     // sees it as same-origin — the cookie-session + CSRF flow in
     // migration-plan/REACT_AUTH_AND_APP_SWITCH_FLOW.md needs that; a

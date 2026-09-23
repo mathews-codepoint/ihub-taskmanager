@@ -159,13 +159,13 @@ export const ON_THE_CLOCK = {
   needsAttention: 8,
   onTime: 13,
   items: [
-    { title: 'Budget Release — Eid Activation, 360 Mall', category: 'Approvals', owner: 'Sara Al-Qahtani', note: 'Over by 5.3h', tone: 'bad', pct: 100 } as OnTheClockItem,
+    { title: 'Budget Release — Eid Activation, 360 Mall', category: 'Approvals', owner: 'Sara Al-Qahtani', note: 'Over by 5.3h', tone: 'bad', pct: 100 },
     { title: 'Arcade machine maintenance — 12 units', category: 'Tasks', owner: 'Operations', note: 'Over by 6.7h', tone: 'bad', pct: 100 },
     { title: 'POS network outage — 360 Mall', category: 'Incidents', owner: 'Yazan Malik (IT)', note: '18m over', tone: 'bad', pct: 100 },
     { title: 'Action Sheet — Crowd Safety Plan, Summer Festival', category: 'Action sheets', owner: 'Operations Committee', note: '12m left', tone: 'warn', pct: 92 },
     { title: 'Repair escalator B2', category: 'Tasks', owner: 'Facilities', note: '1.4h left', tone: 'warn', pct: 78 },
     { title: 'Purchase Approval (PC) — Cinema Projector Units ×2', category: 'Approvals', owner: 'Khaled Ibrahim', note: '5.8h left', tone: 'warn', pct: 55 },
-  ],
+  ] as OnTheClockItem[],
   byType: [
     { label: 'Approvals', done: 5, total: 8 },
     { label: 'Action sheets', done: 1, total: 2 },

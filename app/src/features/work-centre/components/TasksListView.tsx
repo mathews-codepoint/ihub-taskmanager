@@ -105,7 +105,12 @@ export function TasksListView({ scope }: { scope: string }) {
                       >
                         <EyeIcon size={14} />
                       </button>
-                      <button type="button" aria-label="Edit" className="flex h-7 w-7 items-center justify-center rounded-md text-text-3 hover:bg-bg-2">
+                      <button
+                        type="button"
+                        aria-label="Edit"
+                        onClick={() => navigate(`/workcentre/tasks/${task.id}/edit`)}
+                        className="flex h-7 w-7 items-center justify-center rounded-md text-text-3 hover:bg-bg-2"
+                      >
                         <PencilIcon size={14} />
                       </button>
                       <button type="button" aria-label="Remove" className="flex h-7 w-7 items-center justify-center rounded-md text-text-3 hover:bg-bg-2">

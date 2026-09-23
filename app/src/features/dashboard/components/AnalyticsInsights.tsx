@@ -121,7 +121,7 @@ export function AnalyticsInsights() {
         </ChartCard>
 
         <ChartCard title="Issue Aging" sub="Open issues grouped by aging period">
-          <VerticalBarChart data={ISSUE_AGING.map((d, i) => ({ ...d, color: AGING_COLORS[i] }))} />
+          <VerticalBarChart data={ISSUE_AGING.map((d, i) => ({ ...d, color: AGING_COLORS[i] ?? 'var(--bad)' }))} />
         </ChartCard>
 
         <div className="sm:col-span-2">

@@ -62,7 +62,7 @@ const MENU_ICONS: Record<string, (props: IconProps) => ReactElement> = {
   settings: SettingsIcon,
 }
 
-function MenuIconGlyph({ icon, size = 15 }: { icon?: string; size?: number }) {
+function MenuIconGlyph({ icon, size = 15 }: { icon?: string | undefined; size?: number }) {
   const Icon = (icon && MENU_ICONS[icon]) || GridIcon
   return <Icon size={size} />
 }
