@@ -41,8 +41,8 @@ if the current task looks fully done and verified. Check the box in Section
 | # | Task | Status |
 |---|---|---|
 | 1 | Prototype analysis (`PROTOTYPE_ANALYSIS.md`) | ☑ |
-| 2 | Design tokens verified (`DESIGN_SYSTEM.md`) | ☐ |
-| 3 | `app-architecture` skill supplied (`App-structure.md`) | ☐ |
+| 2 | Design tokens verified (`DESIGN_SYSTEM.md`) | ☑ |
+| 3 | `app-architecture` skill supplied (`App-structure.md`) | ☑ |
 | 4 | Auth contract documented (`REACT_AUTH_AND_APP_SWITCH_FLOW.md`) | ☐ |
 | 2.1 | Vite + React 19 + strict TypeScript scaffold | ☐ |
 | 2.2 | `src/styles/tokens.css` from `DESIGN_SYSTEM.md` + Tailwind config mapped to it | ☐ |

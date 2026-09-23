@@ -7,6 +7,12 @@ description: Architectural standards, SOLID guidelines, design tokens, HTTP API 
 
 This skill provides comprehensive instructions for developing, refactoring, and maintaining modular, enterprise **Web Application Modules**.
 
+**Note for the iHub Task Manager React migration**: This skill has two internal conflicts that are resolved by other migration reference docs. For this project, **always follow these overrides**:
+1. **Design Tokens (§3)** — Ignore the semantic color hex values in §3 (Orange `#F58220`, Red `#F0342C`, Green `#BFE3CC`). Instead, use the verified tokens from `DESIGN_SYSTEM.md` (`--warn` `#B5791F`, `--bad` `#D32414`, `--ok` `#1E9E63`). Similarly, cards use `--radius-lg` (10px), not 8px.
+2. **Auth Routes (§7 vs. §6)** — Ignore the "Preferred backend route names" in §7 (`/api/auth/*`, `GET /api/navigation`). Instead, follow §6 and the `REACT_AUTH_AND_APP_SWITCH_FLOW.md` doc: use `/api/v1/auth/login`, `/api/v1/auth/session`, `/api/v1/auth/logout`. Do not assume `GET /api/navigation` exists.
+
+§6's HTTP client patterns and the folder structure/SOLID rules below remain authoritative.
+
 ## 1. Domain & Purpose
 This enterprise architecture skill establishes consistent code structure, design system rules, routing patterns, and data-fetching guidelines across all application feature modules (such as task management, administration masters, dashboards, user profiles, and operational tools).
 
@@ -112,4 +118,4 @@ src/
 - Tests for this area must cover login destination routing, encrypted login requests, React-to-Laravel switching, Laravel-to-React session restoration, expired sessions, invalid redirect paths, untrusted origins, logout, duplicate request prevention, and token/session leakage prevention.
 
 Reference:
-- `docs/REACT_AUTH_AND_APP_SWITCH_FLOW.md`
+- `REACT_AUTH_AND_APP_SWITCH_FLOW.md` (in this migration-plan folder)
