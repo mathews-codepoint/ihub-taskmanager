@@ -29,9 +29,9 @@ For menu rendering, the frontend uses the menu hierarchy and effective action pe
 
 ### Step 1: User enters credentials
 
-File:
+File (to be created):
 
-- [src/features/auth/pages/LoginPage.tsx](/D:/Codepoint-projects/IHUB-V2/Tamdeen-iHub-v2-React-UI-App/src/features/auth/pages/LoginPage.tsx)
+- `src/features/auth/pages/LoginPage.tsx`
 
 What happens:
 
@@ -41,9 +41,9 @@ What happens:
 
 ### Step 2: React encrypts the credentials
 
-File:
+File (to be created):
 
-- [src/features/auth/utils/loginCredentialEncryption.ts](/D:/Codepoint-projects/IHUB-V2/Tamdeen-iHub-v2-React-UI-App/src/features/auth/utils/loginCredentialEncryption.ts)
+- `src/features/auth/utils/loginCredentialEncryption.ts`
 
 Plaintext inside the browser:
 
@@ -73,7 +73,7 @@ Important:
 
 File:
 
-- [src/features/auth/api/authApi.ts](/D:/Codepoint-projects/IHUB-V2/Tamdeen-iHub-v2-React-UI-App/src/features/auth/api/authApi.ts)
+- `src/features/auth/api/authApi.ts` (to be created)
 
 Request:
 
@@ -122,7 +122,7 @@ On refresh or direct app entry, React asks Node whether the cookie session is st
 
 File:
 
-- [src/features/auth/store/useAuthStore.ts](/D:/Codepoint-projects/IHUB-V2/Tamdeen-iHub-v2-React-UI-App/src/features/auth/store/useAuthStore.ts)
+- `src/features/auth/store/useAuthStore.ts` (to be created)
 
 Request:
 
@@ -151,7 +151,7 @@ If expired:
 
 File:
 
-- [src/features/auth/api/authApi.ts](/D:/Codepoint-projects/IHUB-V2/Tamdeen-iHub-v2-React-UI-App/src/features/auth/api/authApi.ts)
+- `src/features/auth/api/authApi.ts` (to be created)
 
 Request:
 
