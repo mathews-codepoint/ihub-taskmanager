@@ -2,7 +2,7 @@ import * as PopoverPrimitive from '@radix-ui/react-popover'
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
 
-import { ChevronDownIcon, Popover, PopoverContent, PopoverTrigger } from '../../../shared/ui'
+import { ChevronDownIcon, LayersIcon, Popover, PopoverContent, PopoverTrigger } from '../../../shared/ui'
 import { MASTER_CATEGORIES, MASTER_CATEGORY_LABELS, mastersByCategory } from '../data/masterCatalog'
 import type { MasterCategory } from '../types'
 
@@ -21,6 +21,7 @@ export function MastersMegaMenu() {
     <Popover>
       <PopoverTrigger asChild>
         <button type="button" className={navItemClass}>
+          <LayersIcon size={15} />
           Masters
           <ChevronDownIcon size={13} className="opacity-50" />
         </button>

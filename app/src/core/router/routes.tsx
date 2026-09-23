@@ -1,12 +1,13 @@
 import { createBrowserRouter, type RouteObject } from 'react-router'
 
 import { authRoutes } from '../../features/auth/routes'
+import { dashboardRoutes } from '../../features/dashboard/routes'
 import { mastersRoutes } from '../../features/masters/routes'
 import { AppLayout } from '../../layouts/AppLayout'
 import { ProtectedRoute } from './guards/ProtectedRoute'
 import { UnprotectedOnlyRoute } from './guards/UnprotectedOnlyRoute'
 
-/** Placeholder leaf until each real feature (migration-plan Phases 5–8)
+/** Placeholder leaf until each real feature (migration-plan Phases 6–8)
  * brings its own `features/*\/routes.ts` for this file to compose instead. */
 function ScaffoldPage({ title }: { title: string }) {
   return (
@@ -23,13 +24,12 @@ export const routes: RouteObject[] = [
     children: authRoutes,
   },
   {
+    element: <AppLayout />,
+    children: [...dashboardRoutes, ...mastersRoutes, { path: '/workcentre', element: <ScaffoldPage title="Work Centre" /> }],
+  },
+  {
     element: <ProtectedRoute />,
-    children: [
-      {
-        element: <AppLayout />,
-        children: [{ index: true, element: <ScaffoldPage title="Dashboard" /> }, ...mastersRoutes],
-      },
-    ],
+    children: [],
   },
 ]
 
