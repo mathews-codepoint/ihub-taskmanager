@@ -8,6 +8,7 @@ import { hrRoutes } from '../../features/hr/routes'
 import { mastersRoutes } from '../../features/masters/routes'
 import { qualityComplianceRoutes } from '../../features/quality-compliance/routes'
 import { workCentreRoutes } from '../../features/work-centre/routes'
+import { workflowsRoutes } from '../../features/workflows/routes'
 import { AppLayout } from '../../layouts/AppLayout'
 import { ProtectedRoute } from './guards/ProtectedRoute'
 import { UnprotectedOnlyRoute } from './guards/UnprotectedOnlyRoute'
@@ -38,6 +39,7 @@ export const routes: RouteObject[] = [
       ...hrRoutes,
       ...qualityComplianceRoutes,
       ...appraisalRoutes,
+      ...workflowsRoutes,
       { path: '/notifications', element: <ScaffoldPage title="Notifications" /> },
       { path: '/settings-configuration/configuration', element: <ScaffoldPage title="Settings & Configuration" /> },
     ],
