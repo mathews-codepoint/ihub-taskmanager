@@ -44,28 +44,30 @@ if the current task looks fully done and verified. Check the box in Section
 | 2 | Design tokens verified (`DESIGN_SYSTEM.md`) | ☑ |
 | 3 | `app-architecture` skill supplied (`App-structure.md`) | ☑ |
 | 4 | Auth contract documented (`REACT_AUTH_AND_APP_SWITCH_FLOW.md`) | ☑ |
-| 2.1 | Vite + React 19 + strict TypeScript scaffold | ☐ |
-| 2.2 | `src/styles/tokens.css` from `DESIGN_SYSTEM.md` + Tailwind config mapped to it | ☐ |
-| 2.3 | Install allowed dependencies only | ☐ |
-| 2.4 | Radix primitives (Dialog, Popover, DropdownMenu, Select, Tooltip) hand-wrapped in `shared/ui` | ☐ |
+| 2.1 | Vite + React 19 + strict TypeScript scaffold | ☑ |
+| 2.2 | `src/styles/tokens.css` from `DESIGN_SYSTEM.md` + Tailwind config mapped to it | ☑ |
+| 2.3 | Install allowed dependencies only | ☑ |
+| 2.4 | Radix primitives (Dialog, Popover, DropdownMenu, Select, Tooltip) hand-wrapped in `shared/ui` | ☑ |
 | 2.5 | Vaul-based drawer/sheet component in `shared/ui` | ☐ |
-| 2.6 | `core/http` client (Axios, cookie session, CSRF header, error normalizer) | ☐ |
-| 2.7 | `core/router` skeleton + guards | ☐ |
-| 2.8 | `core/providers` (Theme, QueryClient) | ☐ |
-| 2.9 | `layouts/AppLayout` + TopNav shell | ☐ |
-| 2.10 | Clean foundation verified (build + dev server, zero TS errors) | ☐ |
-| 3.1 | Auth: login page + RSA-OAEP-256 credential encryption | ☐ |
-| 3.2 | Auth: session restore on boot (`GET /api/v1/auth/session`) | ☐ |
-| 3.3 | Auth: logout (`POST /api/v1/auth/logout`) | ☐ |
-| 3.4 | Auth: `GET /api/v1/menus/` drives nav/permissions | ☐ |
-| 3.5 | Auth: CSRF header + session-expiry flow | ☐ |
-| 3.6 | Auth: legacy/new app-switch redirect (`defaultApplication` / `redirectPath`) | ☐ |
-| 4.1 | Shared `DataTable` + `Pagination` + `Filters` modal | ☐ |
+| 2.6 | `core/http` client (Axios, cookie session, CSRF header, error normalizer) | ☑ |
+| 2.7 | `core/router` skeleton + guards | ☑ |
+| 2.8 | `core/providers` (Theme, QueryClient) | ☑ |
+| 2.9 | `layouts/AppLayout` + TopNav shell | ☑ |
+| 2.10 | Clean foundation verified (build + dev server, zero TS errors) | ☑ |
+| 3.1 | Auth: login page + RSA-OAEP-256 credential encryption | ☑ |
+| 3.2 | Auth: session restore on boot (`GET /api/v1/auth/session`) | ☑ |
+| 3.3 | Auth: logout (`POST /api/v1/auth/logout`) | ☑ |
+| 3.4 | Auth: `GET /api/v1/menus/` drives nav/permissions | ☑ |
+| 3.5 | Auth: CSRF header + session-expiry flow | ☑ |
+| 3.6 | Auth: legacy/new app-switch redirect (`defaultApplication` / `redirectPath`) | ☑ |
+| 4.1 | Shared `DataTable` + `Pagination` + `Filters` modal + Settings (chip/filter/column visibility) modal | ☐ |
 | 4.2 | Masters (List): tab strips, search, sort | ☐ |
-| 4.3 | Masters: Add/Edit modal + Yup validation + delete confirm | ☐ |
-| 4.4 | Masters mega menu (47 items / 7 columns) | ☐ |
+| 4.3 | Masters: Add/Edit modal + Yup validation + delete confirm + View modal | ☐ |
+| 4.4 | Masters mega menu (**corrected**: 80 items / 4 categories / 3-column grid — see note) | ☐ |
 | 4.5 | CSV export util | ☐ |
 | 4.6 | **Decision needed**: bulk Excel/CSV import (SheetJS) — port or defer? | ☐ |
+
+> **2026-09-23 correction, verified against the live prototype** (`https://designs.codepoints.in/ihub-taskManager/`), which per Section 2's Standing Decision #1 outranks this doc's numbers: the mega menu actually has **80 master types across 4 categories** (Admin 27, General 22, HR 16, Operation 15) in a **3-column grid with a left category rail**, not "47 items / 7 columns". Only **3 of the 80** have real built screens — Project Category Master, Machine Master, Assignment Areas — each with a *different* field schema (plain repeatable text rows / select-heavy repeatable "Mapping Row" groups / repeatable rows + checkboxes). The other 77 render a shared "Page not available yet" placeholder — that's intentional prototype scope, not missing work. There is also a **Settings modal** (gear icon: Chip Settings / Filter Settings / Column Settings tabs) on the Masters list page that this doc never mentioned; user confirmed (2026-09-23) to build it as part of 4.1/4.3 scope. Full findings from the live-UI analysis subagent are the implementation spec for all of Phase 4.
 | 5.1 | Dashboard: stat strip, live clock, tabs | ☐ |
 | 5.2 | Dashboard: chart primitives on Recharts (see Section 4) | ☐ |
 | 5.3 | Dashboard: live feed, workload bars | ☐ |
