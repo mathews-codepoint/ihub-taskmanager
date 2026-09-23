@@ -110,7 +110,7 @@ function MenuGroupItem({ group }: { group: MenuGroup }) {
 function Logo() {
   const { theme } = useTheme()
   return (
-    <span className="flex shrink-0 items-center gap-3.5">
+    <NavLink to="/" className="flex shrink-0 items-center gap-3.5" aria-label="Go to home">
       <img
         src={theme === 'ink' ? tamdeenLogoWhite : tamdeenLogoColor}
         alt="Tamdeen Entertainment"
@@ -118,7 +118,7 @@ function Logo() {
       />
       <span aria-hidden className="h-[22px] w-px bg-line-2" />
       <img src={ihubWordmark} alt="ihub" className="h-[30px] w-auto" />
-    </span>
+    </NavLink>
   )
 }
 
