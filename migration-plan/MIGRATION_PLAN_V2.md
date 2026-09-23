@@ -40,7 +40,7 @@ if the current task looks fully done and verified. Check the box in Section
 
 | # | Task | Status |
 |---|---|---|
-| 1 | Prototype analysis (`PROTOTYPE_ANALYSIS.md`) | ☐ |
+| 1 | Prototype analysis (`PROTOTYPE_ANALYSIS.md`) | ☑ |
 | 2 | Design tokens verified (`DESIGN_SYSTEM.md`) | ☐ |
 | 3 | `app-architecture` skill supplied (`App-structure.md`) | ☐ |
 | 4 | Auth contract documented (`REACT_AUTH_AND_APP_SWITCH_FLOW.md`) | ☐ |
