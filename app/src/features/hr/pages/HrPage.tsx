@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
+import { ScaffoldGrid } from '../../../shared/ui'
 import { OvertimeReport } from '../components/OvertimeReport'
-import { ScaffoldGrid } from '../components/ScaffoldGrid'
 import { HR_MODULES, OVERTIME_SUB_TABS, type HrModule, type OvertimeSubTab } from '../data/hrMock'
 
 type ViewMode = 'section' | 'report'

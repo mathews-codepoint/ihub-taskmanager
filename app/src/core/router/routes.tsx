@@ -5,6 +5,7 @@ import { dashboardRoutes } from '../../features/dashboard/routes'
 import { financeBudgetsRoutes } from '../../features/finance-budgets/routes'
 import { hrRoutes } from '../../features/hr/routes'
 import { mastersRoutes } from '../../features/masters/routes'
+import { qualityComplianceRoutes } from '../../features/quality-compliance/routes'
 import { workCentreRoutes } from '../../features/work-centre/routes'
 import { AppLayout } from '../../layouts/AppLayout'
 import { ProtectedRoute } from './guards/ProtectedRoute'
@@ -34,6 +35,7 @@ export const routes: RouteObject[] = [
       ...workCentreRoutes,
       ...financeBudgetsRoutes,
       ...hrRoutes,
+      ...qualityComplianceRoutes,
       { path: '/notifications', element: <ScaffoldPage title="Notifications" /> },
       { path: '/settings-configuration/configuration', element: <ScaffoldPage title="Settings & Configuration" /> },
     ],

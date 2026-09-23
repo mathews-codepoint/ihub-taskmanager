@@ -1,11 +1,12 @@
-import { GridIcon } from '../../../shared/ui'
+import { GridIcon } from './icons'
 
 const PLACEHOLDER_COUNT = 6
 
-/** Matches the live prototype: every HR module/sub-tab that isn't the
- * Overtime Report view renders this identical unbuilt-screen skeleton
- * (per Standing Decision #1, the prototype is the source of truth — most
- * of HR is genuinely just scaffold cards there, not a migration gap). */
+/** Matches the live prototype: most sub-tabs across several later-phase
+ * domains (HR, Quality & Compliance, …) render this identical unbuilt-
+ * screen skeleton rather than a real design (per Standing Decision #1,
+ * the prototype is the source of truth — these are genuinely scaffold
+ * cards there, not a migration gap). */
 export function ScaffoldGrid() {
   return (
     <div className="mt-4">
