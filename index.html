@@ -18082,7 +18082,7 @@ Object.assign(window, {
         moreOpen ? h(F, null,
           h('div', { onClick: () => setMoreOpen(false), style: { position: 'fixed', inset: 0, zIndex: 60 } }),
           h('div', { style: { position: 'absolute', insetInlineEnd: 0, bottom: 'calc(100% + 8px)', zIndex: 61, width: 200, background: 'var(--paper)', border: '1px solid var(--line-2)', borderRadius: 12, boxShadow: '0 12px 32px rgba(20,20,30,.16)', overflow: 'hidden', padding: 6 } },
-            MORE_MENU_ITEMS.map((o, oi) => o.divider ? h('hr', { key: oi, className: 'hairline', style: { margin: '5px 4px' } }) : h('button', { key: oi, type: 'button', onClick: () => { setMoreOpen(false); if (o.label === 'Redirect') setShowRedirect(true); else flashLocal(T(o.label, o.ar, locale)); }, style: { display: 'flex', alignItems: 'center', gap: 9, width: '100%', textAlign: 'start', padding: '8px 10px', border: 'none', borderRadius: 8, background: 'transparent', cursor: 'pointer', fontFamily: 'inherit', fontSize: 13, color: o.danger ? 'var(--bad)' : 'var(--text)' } }, h(I[o.icon], { size: 14 }), T(o.label, o.ar, locale))))) : null));
+            MORE_MENU_ITEMS.map((o, oi) => o.divider ? h('hr', { key: oi, className: 'hairline', style: { margin: '5px 4px' } }) : h('button', { key: oi, type: 'button', onClick: () => { setMoreOpen(false); if (o.label === 'Redirect') { setRedirectProcessOwner(processOwner || ''); setRedirectPartners([...matrixPartners]); setRedirectAssignee(assignee || ''); setShowRedirect(true); } else flashLocal(T(o.label, o.ar, locale)); }, style: { display: 'flex', alignItems: 'center', gap: 9, width: '100%', textAlign: 'start', padding: '8px 10px', border: 'none', borderRadius: 8, background: 'transparent', cursor: 'pointer', fontFamily: 'inherit', fontSize: 13, color: o.danger ? 'var(--bad)' : 'var(--text)' } }, h(I[o.icon], { size: 14 }), T(o.label, o.ar, locale))))) : null));
 
     const headerCard = h('div', { className: 'card', style: { padding: 22, display: 'flex', flexDirection: 'column', gap: 18 } },
       h('div', { style: { display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' } },
@@ -18929,11 +18929,17 @@ Object.assign(window, {
       document.body);
 
 
-    const REDIRECT_PROCESS_OWNERS = JO_TEAM.map(m => m.name);
+    // Redirect uses the same department list as the Assignment Info card (Process Owner / Matrix Partner).
+    const REDIRECT_PROCESS_OWNERS = TEP_ASSIGN_DEPTS;
     const REDIRECT_PARTNERS = ['IT Department', 'HR Department', 'Finance Department', 'Operations Team', 'Maintenance Team', 'Procurement Team'];
     const toggleRedirectPartner = (name) => setRedirectPartners(list => list.includes(name) ? list.filter(n => n !== name) : [...list, name]);
     const confirmRedirect = () => {
       if (!redirectProcessOwner || !redirectAssignee.trim()) { flashLocal(T('Process owner and assignee are required.', 'مالك العملية والمكلف مطلوبان.', locale)); return; }
+      // Replace the Assignment Info card data with the redirect selection.
+      setProcessOwner(redirectProcessOwner);
+      setMatrixPartners(redirectPartners.filter(n => n !== redirectProcessOwner));
+      setAssignee(redirectAssignee);
+      setTepOpenCards(o => ({ ...o, assignment: true }));
       setShowRedirect(false);
       flashLocal(T('Task redirected', 'تم إعادة توجيه المهمة', locale));
     };
@@ -18950,7 +18956,7 @@ Object.assign(window, {
             h('div', { className: 'card', style: { padding: 16, display: 'flex', flexDirection: 'column', gap: 10 } },
               kicker(T('Matrix Partner (Multiple Selection Allowed)', 'الشريك المصفوفي (يسمح بالاختيار المتعدد)', locale)),
               h('div', { style: { border: '1px solid var(--line-2)', borderRadius: 10, background: 'var(--bg-2)', maxHeight: 170, overflowY: 'auto', padding: 4 } },
-                REDIRECT_PARTNERS.map((p, pi) => h('label', { key: pi, style: { display: 'flex', alignItems: 'center', gap: 10, padding: '9px 10px', fontSize: 13.5, color: 'var(--text)', cursor: 'pointer' } },
+                TEP_ASSIGN_DEPTS.filter(p => p !== redirectProcessOwner).map((p, pi) => h('label', { key: pi, style: { display: 'flex', alignItems: 'center', gap: 10, padding: '9px 10px', fontSize: 13.5, color: 'var(--text)', cursor: 'pointer' } },
                   h('input', { type: 'checkbox', checked: redirectPartners.includes(p), onChange: () => toggleRedirectPartner(p) }),
                   p)))),
             h('div', { style: { display: 'flex', flexDirection: 'column', gap: 8 } },
