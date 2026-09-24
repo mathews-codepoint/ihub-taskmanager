@@ -18043,10 +18043,13 @@ Object.assign(window, {
     const [obsNo, setObsNo] = React.useState('');
     const [incidentNo, setIncidentNo] = React.useState('');
     const [source, setSource] = React.useState('Generic');
-    const [processOwner, setProcessOwner] = React.useState(ownerName);
-    const [matrixPartners, setMatrixPartners] = React.useState([JO_TEAM[1] ? JO_TEAM[1].name : 'John Smith', JO_TEAM[2] ? JO_TEAM[2].name : 'Sarah Chen']);
+    // Assignment Info — Process Owner & Matrix Partners are departments; Assignee is a person.
+    const TEP_ASSIGN_DEPTS = ['Maintenance Department', 'IT Department', 'Safety Department', 'Operations Department', 'Facilities Department', 'HR Department', 'Finance Department', 'Procurement Department'];
+    const [processOwner, setProcessOwner] = React.useState(TEP_ASSIGN_DEPTS[0]);
+    const [matrixPartners, setMatrixPartners] = React.useState([TEP_ASSIGN_DEPTS[1], TEP_ASSIGN_DEPTS[2]]);
     const [matrixPick, setMatrixPick] = React.useState('');
-    const [assignee, setAssignee] = React.useState('');
+    const [assignee, setAssignee] = React.useState(item.assignee || '');
+    const [assignMenu, setAssignMenu] = React.useState(null); // which Assignment Info dropdown card is open ('po' | 'as' | null)
 
     const STAGE_MARKERS = {
       1: [{ icon: I.check, bg: 'var(--ok)', title: T('Approval Required', 'الموافقة مطلوبة', locale), titleColor: 'var(--ok)', subtitle: T('Technical specs approval', 'اعتماد المواصفات الفنية', locale), chipLabel: T('Cleared', 'تم الاعتماد', locale), chipBg: 'var(--ok)' }],
@@ -18163,10 +18166,10 @@ Object.assign(window, {
     const stRows = EDIT_SUBTASKS.filter(r => (!spDept || r.dept === spDept) && (!spSub || r.sub === spSub));
     const stGroups = ST_DEPTS.map(d => [d, stRows.filter(r => r.dept === d)]).filter(g => g[1].length);
     // ---- Accordion cards (Sub Tasks and Add Comment open by default) ----
-    const [tepOpenCards, setTepOpenCards] = React.useState({ subtasks: true, comment: true, sla: !!readOnly });
+    const [tepOpenCards, setTepOpenCards] = React.useState({ subtasks: true, comment: true, assignment: true, sla: !!readOnly });
     const toggleTepCard = (k) => setTepOpenCards(o => ({ ...o, [k]: !o[k] }));
     // Header icon per card — same bordered 30px tile as the Create New Task (Design Change) cards.
-    const TEP_CARD_ICONS = { subtasks: 'check', details: 'edit', classification: 'flag', requester: 'users', location: 'mapPin', sla: 'clock', attachments: 'folder', reference: 'hash', activity: 'activity', deps: 'globe', comment: 'message' };
+    const TEP_CARD_ICONS = { subtasks: 'check', details: 'edit', classification: 'flag', requester: 'users', assignment: 'user', location: 'mapPin', sla: 'clock', attachments: 'folder', reference: 'hash', activity: 'activity', deps: 'globe', comment: 'message' };
     const cardIcon = (k) => { const n = TEP_CARD_ICONS[k]; return n && I[n] ? h('span', { style: { display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 30, height: 30, borderRadius: 9, border: '1px solid var(--line-2)', background: 'var(--paper)', color: 'var(--accent)', flexShrink: 0 } }, h(I[n], { size: 16 })) : null; };
     const accPanel = (k, title, content, right) => {
       const open = !!tepOpenCards[k];
@@ -18370,7 +18373,7 @@ Object.assign(window, {
         slaBannerB, slaTargetB, slaTimelineB));
     const locationPanel = accPanel('location', T('Location & Zone', 'الموقع والمنطقة', locale),
       h('div', { style: { display: 'flex', flexDirection: 'column', gap: 14 } },
-        h('div', { style: { fontSize: 11.5, color: 'var(--text-3)' } }, T('Where this task takes place, its priority, the related asset, and who owns it.', 'مكان تنفيذ المهمة وأولويتها والأصل المرتبط بها ومالكها.', locale)),
+        h('div', { style: { fontSize: 11.5, color: 'var(--text-3)' } }, T('Where this task takes place, its priority, and the related asset.', 'مكان تنفيذ المهمة وأولويتها والأصل المرتبط بها.', locale)),
         gridN(3, [
           field(T('Location', 'الموقع', locale), loc),
           field(T('Zone', 'المنطقة', locale), zone),
@@ -18383,21 +18386,16 @@ Object.assign(window, {
           readOnly ? field(T('Asset Category', 'فئة الأصل', locale), assetCat) : editField(T('Asset Category', 'فئة الأصل', locale), selectField(assetCat, () => {}, T('Select category', 'اختر الفئة', locale), ASSET_CATS)),
           readOnly ? field(T('Asset Name', 'اسم الأصل', locale), assetName) : editField(T('Asset Name', 'اسم الأصل', locale), textInput(assetName, setAssetName, T('Enter asset name', 'أدخل اسم الأصل', locale))),
           readOnly ? field(T('Asset Code', 'رمز الأصل', locale), h('span', { className: 'num' }, assetCode)) : editField(T('Asset Code', 'رمز الأصل', locale), h('input', { value: assetCode, readOnly: true, className: 'num', style: { ...inputStyle, color: 'var(--text-3)', cursor: 'default' } })),
-          field(T('Process Owner', 'مالك العملية', locale), processOwner),
-          h('div', null, kicker(T('Matrix Partner', 'الشريك المصفوفي', locale)),
-          h('div', { style: { marginTop: 6, display: 'flex', flexWrap: 'wrap', gap: 6 } },
-            matrixPartners.length ? matrixPartners.map((n, i) => h('span', { key: i, className: 'chip accent', style: { fontSize: 12 } }, n)) : h('span', { style: { fontSize: 13.5, color: 'var(--text)' } }, '—'))),
         ])));
 
-    const assetPanel = accPanel('requester', T('Assignment & Requester', 'الإسناد ومقدّم الطلب', locale),
+    const assetPanel = accPanel('requester', T('Requester Info', 'معلومات مقدّم الطلب', locale),
       h('div', { style: { display: 'flex', flexDirection: 'column', gap: 14 } },
-        h('div', { style: { fontSize: 11.5, color: 'var(--text-3)' } }, T('Who requested this task, when, and who it is assigned to.', 'من طلب هذه المهمة ومتى ولمن أُسندت.', locale)),
+        h('div', { style: { fontSize: 11.5, color: 'var(--text-3)' } }, T('Who requested this task and when.', 'من طلب هذه المهمة ومتى.', locale)),
         gridN(3, [
           field(T('Requested Date & Time', 'تاريخ ووقت الطلب', locale), '10 Feb 2026 08:00'),
           field(T('Requested By', 'مقدّم الطلب', locale), ownerName),
           field(T('Requester Department', 'قسم مقدّم الطلب', locale), item.dept),
           field(T('Requester Type / Role', 'نوع / دور مقدّم الطلب', locale), T('Manager', 'مدير', locale)),
-          readOnly ? field(T('Assignee', 'المكلف', locale), assignee || item.assignee || T('Unassigned', 'غير مسند', locale)) : editField(T('Assignee', 'المكلف', locale), selectField(assignee, setAssignee, T('Choose assignee', 'اختر المكلف', locale), JO_TEAM.map(m => m.name))),
           h('div', null, kicker(T('No. of Days Elapsed', 'عدد الأيام المنقضية', locale)),
           h('div', { style: { marginTop: 6, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' } },
             h('span', { className: 'chip warn', style: { fontSize: 11.5 } }, daysElapsed + ' ' + T('days', 'يوم', locale)),
@@ -18440,16 +18438,42 @@ Object.assign(window, {
             h('span', { className: 'chip warn', style: { fontSize: 11.5 } }, daysElapsed + ' ' + T('days', 'يوم', locale)),
             h('span', { style: { fontSize: 11.5, color: 'var(--text-3)' } }, T('Since request', 'منذ الطلب', locale))))));
 
+    // Assignment Info — avatar cards: Process Owner (single), Matrix Partner (multi), Assignee (single).
+    const tepInitials = (n) => String(n || '').split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase() || '—';
+    const tepPersonCard = (o) => h('div', { key: o.key, style: { position: 'relative', display: 'flex', alignItems: 'center', gap: 12, padding: '12px 14px', border: '1px solid var(--line-2)', borderRadius: 10, background: 'var(--paper)' } },
+      h('span', { style: { width: 40, height: 40, borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: o.name ? o.color : 'var(--paper-2)', color: o.name ? 'var(--accent-ink)' : 'var(--text-3)', fontSize: 12, fontWeight: 700 } }, o.name ? tepInitials(o.name) : h(I.user, { size: 16 })),
+      h('div', { style: { flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 2 } },
+        h('span', { style: { fontSize: 14, fontWeight: 600, color: o.name ? 'var(--text)' : 'var(--text-3)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' } }, o.name || o.placeholder),
+        h('span', { style: { fontSize: 12, color: 'var(--text-3)' } }, o.role)),
+      o.onRemove ? h('button', { type: 'button', onClick: o.onRemove, 'aria-label': T('Remove', 'إزالة', locale) + ' ' + o.name, title: T('Remove', 'إزالة', locale), style: { width: 28, height: 28, borderRadius: '50%', border: 'none', cursor: 'pointer', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0, background: 'color-mix(in srgb, var(--bad) 14%, transparent)', color: 'var(--bad)' } }, h(I.close, { size: 14 })) : null,
+      o.options ? h(F, null,
+        h('span', { style: { display: 'flex', color: 'var(--text-4)', flexShrink: 0, pointerEvents: 'none', transform: assignMenu === o.key ? 'rotate(180deg)' : 'none', transition: 'transform .15s' } }, h(I.chevronDown, { size: 16 })),
+        h('button', { type: 'button', 'aria-haspopup': 'listbox', 'aria-expanded': assignMenu === o.key, 'aria-label': o.role + ': ' + (o.name || o.placeholder), onClick: () => setAssignMenu(m => m === o.key ? null : o.key), onBlur: () => setTimeout(() => setAssignMenu(m => m === o.key ? null : m), 150), style: { position: 'absolute', inset: 0, width: '100%', height: '100%', border: 'none', background: 'transparent', cursor: 'pointer', borderRadius: 10, padding: 0 } }),
+        assignMenu === o.key ? h('div', { role: 'listbox', style: { position: 'absolute', top: 'calc(100% + 6px)', insetInlineStart: 0, insetInlineEnd: 0, zIndex: 30, background: 'var(--paper)', border: '1px solid var(--line)', borderRadius: 12, boxShadow: '0 12px 32px rgba(20,20,30,.16)', maxHeight: 240, overflowY: 'auto', padding: 4 } },
+          o.options.map(v => h('div', { key: v, role: 'option', 'aria-selected': v === o.name, onMouseDown: e => { e.preventDefault(); o.onChange(v); setAssignMenu(null); }, onMouseEnter: e => { e.currentTarget.style.background = 'var(--bg-2)'; }, onMouseLeave: e => { e.currentTarget.style.background = v === o.name ? 'var(--accent-dim)' : 'transparent'; }, style: { display: 'flex', alignItems: 'center', gap: 10, padding: '8px 10px', borderRadius: 8, cursor: 'pointer', fontSize: 13.5, color: v === o.name ? 'var(--accent)' : 'var(--text)', fontWeight: v === o.name ? 600 : 400, background: v === o.name ? 'var(--accent-dim)' : 'transparent' } },
+            h('span', { style: { width: 28, height: 28, borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: o.color, color: 'var(--accent-ink)', fontSize: 10.5, fontWeight: 700 } }, tepInitials(v)),
+            h('span', { style: { flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' } }, v),
+            v === o.name ? h(I.check, { size: 14 }) : null))) : null) : null);
+    const tepAssignLbl = (t) => kicker(t);
     const addMatrixPartner = (name) => { if (!name || matrixPartners.includes(name)) return; setMatrixPartners(list => [...list, name]); setMatrixPick(''); };
     const removeMatrixPartner = (name) => setMatrixPartners(list => list.filter(n => n !== name));
-    const assignmentPanel = panel(T('Assignment Info', 'معلومات الإسناد', locale), null,
+    const mpAddOpts = TEP_ASSIGN_DEPTS.filter(d => d !== processOwner && !matrixPartners.includes(d));
+    const roleOwner = T('Process Owner', 'مالك العملية', locale), rolePartner = T('Matrix Partner', 'الشريك المصفوفي', locale), roleAssignee = T('Assignee', 'المكلف', locale);
+    const assignmentPanel = accPanel('assignment', T('Assignment Info', 'معلومات الإسناد', locale),
       h('div', { style: { display: 'flex', flexDirection: 'column', gap: 14 } },
-        h('div', { style: { fontSize: 11.5, color: 'var(--text-3)' } }, T('Who owns and is assigned to this task.', 'من يملك هذه المهمة ومن المكلف بها.', locale)),
-        field(T('Process Owner', 'مالك العملية', locale), processOwner),
-        h('div', null, kicker(T('Matrix Partner', 'الشريك المصفوفي', locale)),
-          h('div', { style: { marginTop: 6, display: 'flex', flexWrap: 'wrap', gap: 6 } },
-            matrixPartners.map((n, i) => h('span', { key: i, className: 'chip accent', style: { fontSize: 12 } }, n)))),
-        editField(T('Assignee', 'المكلف', locale), selectField(assignee, setAssignee, T('Choose assignee', 'اختر المكلف', locale), JO_TEAM.map(m => m.name)))));
+        h('div', { style: { fontSize: 11.5, color: 'var(--text-3)' } }, T('Who owns this task, its matrix partners, and who it is assigned to.', 'من يملك هذه المهمة وشركاؤها المصفوفيون ولمن أُسندت.', locale)),
+        h('div', { style: { display: 'flex', flexDirection: 'column', gap: 8 } },
+          tepAssignLbl(roleOwner),
+          processOwner ? h('div', { style: { display: 'flex', flexWrap: 'wrap', gap: 6 } }, h('span', { className: 'chip accent', style: { fontSize: 12, display: 'inline-flex', alignItems: 'center', gap: 6 } }, processOwner)) : h('div', { style: { fontSize: 13.5, color: 'var(--text-3)' } }, '—')),
+        h('div', { style: { display: 'flex', flexDirection: 'column', gap: 8 } },
+          tepAssignLbl(T('Matrix Partner', 'الشريك المصفوفي', locale)),
+          matrixPartners.length
+            ? h('div', { style: { display: 'flex', flexWrap: 'wrap', gap: 6 } }, matrixPartners.map(n => h('span', { key: 'mp-' + n, className: 'chip accent', style: { fontSize: 12, display: 'inline-flex', alignItems: 'center', gap: 6 } }, n)))
+            : h('div', { style: { fontSize: 13.5, color: 'var(--text-3)' } }, T('No matrix partners', 'لا يوجد شركاء مصفوفيون', locale)),
+          null),
+        h('div', { style: { display: 'flex', flexDirection: 'column', gap: 8 } },
+          tepAssignLbl(roleAssignee),
+          tepPersonCard({ key: 'as', name: assignee, role: roleAssignee, color: 'var(--blue-med)', placeholder: readOnly ? T('Unassigned', 'غير مسند', locale) : T('Choose assignee', 'اختر المكلف', locale), options: readOnly ? null : JO_TEAM.map(m => m.name), onChange: setAssignee }))));
 
     const targetDateChangeRows = (endDate && endDate !== initialDue) ? [{
       id: 'target-date-change',
@@ -19462,7 +19486,7 @@ Object.assign(window, {
             subTasksPanel,
             taskDetailsPanel, classificationPanel, assetPanel, locationPanel, readOnly ? null : slaPanel, readOnly ? null : attachmentsPanel, readOnly ? null : referencePanel,
             React.cloneElement(activityPanel, { style: { ...activityPanel.props.style, flex: 1 } })),
-          h('div', { style: { display: 'flex', flexDirection: 'column', gap: 16 } }, h('div', { id: 'tep-dependencies', style: { scrollMarginTop: 90 } }, dependenciesPanel), readOnly ? referencePanel : null, readOnly ? null : addCommentPanel, logNotesPanel, readOnly ? slaPanel : null, readOnly ? attachmentsPanel : null))),
+          h('div', { style: { display: 'flex', flexDirection: 'column', gap: 16 } }, assignmentPanel, h('div', { id: 'tep-dependencies', style: { scrollMarginTop: 90 } }, dependenciesPanel), readOnly ? referencePanel : null, readOnly ? null : addCommentPanel, logNotesPanel, readOnly ? slaPanel : null, readOnly ? attachmentsPanel : null))),
       toast ? h('div', { style: { position: 'fixed', bottom: 24, insetInlineStart: '50%', transform: 'translateX(-50%)', zIndex: 400, background: 'var(--text)', color: 'var(--bg)', padding: '10px 20px', borderRadius: 999, fontSize: 13, fontWeight: 600, boxShadow: '0 12px 32px rgba(20,20,30,.24)' } }, toast) : null,
       ceoCommentsModal,
       approveModal,
