@@ -1,0 +1,101 @@
+/* iHub design tokens — seeded 1:1 from migration-plan/DESIGN_SYSTEM.md,
+   with exact values verified against the reference implementation in
+   index.html's installGlobalStyles(). Do not hand-edit a value here
+   without updating both sources. */
+
+:root {
+  /* ── PAPER (light) — default per Tamdeen guideline ── */
+  --bg: #ececf0; /* app canvas */
+  --bg-2: #f6f6f8; /* raised chrome: sidebar, inputs, tab strips, hover */
+  --bg-3: #e3e3e9; /* pressed / hover on raised chrome */
+  --paper: #ffffff; /* cards, default surface */
+  --paper-2: #ececf0; /* insets, tracks, chip ground */
+  --line: #e4e4ea; /* hairlines, dividers */
+  --line-2: #d3d3dc; /* input borders, stronger dividers */
+  --text: #1a1a1f; /* Ink Black — headings, anchors */
+  --text-2: #44444c; /* body */
+  --text-3: #757575; /* Neutral Gray — meta, captions */
+  --text-4: #9a9aa3; /* faint labels */
+
+  /* Semantic — meaning, not decoration. Tuned for AA contrast on light surfaces. */
+  --ok: #1e9e63; /* Mint family — success */
+  --warn: #b5791f; /* Amber family — pending */
+  --bad: #d32414; /* Signal Red — risk */
+  --info: #5b53a8; /* Periwinkle — neutral info */
+  --crit: #e0538a; /* Magenta — critical load tier, above --bad */
+
+  --accent: #93358d; /* Tamdeen Magenta — primary action (set live by app) */
+  --accent-dim: #93358d1f; /* 12% tint — active nav, chips, focus ring */
+  --accent-ink: #ffffff; /* text/icon on accent */
+
+  /* Brand palette (Tamdeen guideline) */
+  --brand-purple: #93358d;
+  --brand-indigo: #3b2d59;
+  --brand-red: #ee3124;
+  --brand-orange: #e57828;
+  --brand-yellow: #efac37;
+  --brand-lilac: #b282ba;
+  --brand-pink: #deb0d2;
+  --brand-periwinkle: #7670b3;
+  --brand-mint: #73c69c;
+
+  /* Interactive blues (guideline §03/02): Medium Blue is default for buttons
+     & links, Dark Blue is hover/pressed, Light Blue + Soft are tints.
+     Magenta stays a brand accent — never a button fill. */
+  --blue-dark: #1e2a4d;
+  --blue-med: #4f6fb8;
+  --blue-light: #b0bdf5;
+  --blue-soft: #eaeefb;
+
+  /* Radii — 6px controls / 10px cards per guideline component anatomy */
+  --radius-sm: 6px;
+  --radius: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+  --radius-pill: 999px;
+
+  /* Elevation */
+  --shadow-lift: 0 2px 10px rgba(20, 20, 30, 0.05);
+  --shadow-modal: 0 24px 80px rgba(26, 26, 31, 0.4);
+  --scrim: rgba(26, 26, 31, 0.5);
+
+  /* Type families */
+  --font-sans: 'NumCalibri', 'Zarid Sans', 'Myriad Pro', 'Calibri', system-ui, sans-serif;
+  --font-serif: 'NumCalibri', 'Cormorant', 'Times New Roman', serif; /* emphasis motif only */
+  --font-display: var(--font-sans);
+  --font-ui: var(--font-sans);
+  --font-arabic: 'NumCalibri', 'GE SS', 'GE SS Two', 'GE SS Text', 'BCN Arabic', sans-serif;
+  --font-mono: var(--font-sans);
+  --font-num: 'Calibri', 'Carlito', 'Segoe UI', system-ui, sans-serif; /* numerals always Calibri */
+
+  /* Motion */
+  --ease-standard: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* ── INK (dark) — optional, original surface set ──
+   Matches whichever element carries data-theme="ink" (the app sets it on
+   <body> per the design guideline; custom properties cascade to descendants
+   from there either way). */
+[data-theme='ink'] {
+  --bg: oklch(0.18 0.008 240);
+  --bg-2: oklch(0.21 0.008 240);
+  --bg-3: oklch(0.26 0.009 240);
+  --paper: oklch(0.235 0.009 240);
+  --paper-2: oklch(0.27 0.01 240);
+  --line: oklch(0.32 0.01 240);
+  --line-2: oklch(0.4 0.012 240);
+  --text: oklch(0.97 0.005 240);
+  --text-2: oklch(0.78 0.01 240);
+  --text-3: oklch(0.58 0.01 240);
+  --text-4: oklch(0.45 0.008 240);
+
+  --ok: oklch(0.8 0.15 155);
+  --warn: oklch(0.82 0.14 75);
+  --bad: oklch(0.72 0.16 22);
+  --info: oklch(0.78 0.12 235);
+  --crit: oklch(0.72 0.14 340);
+
+  /* Blues lifted for legibility on dark surfaces */
+  --blue-med: #8aa4e6;
+  --blue-soft: color-mix(in srgb, #4f6fb8 26%, transparent);
+}

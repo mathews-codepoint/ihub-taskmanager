@@ -108,7 +108,7 @@ Arabic: emphasis stays upright and bold (no serif-italic motif in RTL).
 
 ## 3. Shape, elevation & motion
 
-### 3.1 Radii (6px controls / 8px cards)
+### 3.1 Radii (6px controls / 10px cards)
 | Token | Value | Use |
 |---|---|---|
 | `--radius-sm` | 6px | Controls (buttons, inputs) |
@@ -195,4 +195,4 @@ Inline SVG set, line style: `viewBox 0 0 24 24`, **1.6px stroke**, round caps/jo
 
 ---
 
-*Reference implementation: `iHub Operational Command Center (source).html` — global tokens & styles in `installGlobalStyles()`.*
+*Reference implementation: `index.html` — global tokens & styles in `installGlobalStyles()`.*

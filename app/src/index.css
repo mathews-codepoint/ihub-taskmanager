@@ -1,0 +1,53 @@
+@import './styles/theme.css';
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  body[data-theme='ink'] {
+    color-scheme: dark;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100svh;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--color-text);
+    background: var(--color-bg);
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Arabic gets +5% line-height per guideline */
+  body[dir='rtl'] {
+    line-height: 1.58;
+    font-family: var(--font-arabic);
+  }
+
+  #root {
+    min-height: 100svh;
+  }
+
+  /* Emphasis motif (DESIGN_SYSTEM.md §2.4): key words set in serif italic
+   * magenta — used for the iHub wordmark's leading "i" and two-tone page
+   * titles. Arabic drops this and stays upright/bold (handled by [dir=rtl]
+   * below rather than here, so it also overrides .accent-em). */
+  em,
+  .accent-em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 500;
+    color: var(--color-accent);
+  }
+
+  body[dir='rtl'] em,
+  body[dir='rtl'] .accent-em {
+    font-style: normal;
+    font-weight: 700;
+  }
+}
